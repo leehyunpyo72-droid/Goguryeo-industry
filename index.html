@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>(주)고구려산업 | 관리자 확장형 버전</title>
+  <style>
+    :root{
+      --bg:#f4f6f7; --card:#fff; --text:#182126; --muted:#66757f; --line:#d7e0e5;
+      --dark:#0d171c; --deep:#12252f; --accent:#1f5f4a; --accent-soft:#e7f1ed;
+      --danger:#9f2d2d; --danger-soft:#f8e7e7; --shadow:0 12px 30px rgba(16,24,40,.08);
+      --radius:20px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,"Malgun Gothic",sans-serif;background:var(--bg);color:var(--text)}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+    .wrap{max-width:1220px;margin:0 auto;padding:0 20px}
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(215,224,229,.9)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:18px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--deep),var(--accent));display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:var(--shadow)}
+    .logo strong{display:block;font-size:22px;line-height:1.1}
+    .logo span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+    .menu{display:flex;gap:18px;align-items:center;color:#40515d;font-size:15px}
+    .menu a:hover{color:var(--accent)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:14px;font-weight:700;border:none;cursor:pointer;font:inherit;transition:.2s}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-dark{background:var(--dark);color:#fff}
+    .btn-line{background:#fff;border:1px solid var(--line);color:var(--text)}
+    .btn-soft{background:var(--accent-soft);color:var(--accent)}
+    .btn-danger{background:var(--danger-soft);color:var(--danger)}
+    .hero{background:linear-gradient(135deg,#0c161c 0%, #12303d 45%, #1f5f4a 100%);color:#fff;padding:84px 0 60px}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px}
+    .hero h1{font-size:48px;line-height:1.15;margin:0 0 16px}
+    .hero p{font-size:17px;line-height:1.8;color:#dbe8e4;margin:0 0 22px}
+    .hero-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:24px;box-shadow:var(--shadow)}
+    .hero-card ul{margin:0;padding-left:18px;line-height:1.9;color:#d7e4df}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+    .stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:20px;padding:16px}
+    .stat strong{display:block;font-size:24px;margin-bottom:6px}
+    section{padding:68px 0}
+    .section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:24px}
+    .section-title{font-size:34px;margin:0 0 8px}
+    .section-desc{margin:0;color:var(--muted);line-height:1.8;max-width:760px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+    .chip{display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:12px;margin-bottom:12px}
+    input,select,textarea{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;font:inherit;color:var(--text)}
+    textarea{min-height:110px;resize:vertical}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:#95b6aa;box-shadow:0 0 0 4px rgba(31,95,74,.08)}
+    .toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    .tool{flex:1;min-width:180px}
+    .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .product-card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+    .thumb{height:190px;background:linear-gradient(135deg,#eef3f5,#dbe6ea);display:flex;align-items:center;justify-content:center;position:relative}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .thumb .placeholder{font-size:44px;opacity:.9}
+    .tag-row{position:absolute;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;gap:8px}
+    .tag{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#fff;color:var(--accent);border:1px solid #dce8e3}
+    .product-body{padding:18px;display:flex;flex-direction:column;gap:10px;flex:1}
+    .product-body h4{margin:0;font-size:20px}
+    .meta{font-size:12px;color:var(--muted);line-height:1.7}
+    .badge{display:inline-flex;padding:5px 10px;border-radius:999px;background:#eef5f2;color:var(--accent);font-size:12px;font-weight:700}
+    .product-actions{display:flex;gap:10px;margin-top:auto}
+    .product-actions button{flex:1}
+    .empty{padding:44px 20px;text-align:center;background:#fff;border:1px dashed var(--line);border-radius:18px;color:var(--muted)}
+    .admin-shell{display:grid;grid-template-columns:280px 1fr;gap:18px}
+    .admin-menu{display:grid;gap:10px}
+    .admin-panel{display:none}
+    .admin-panel.active{display:block}
+    .split-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .split-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .full{grid-column:1/-1}
+    .note{padding:12px 14px;border-radius:14px;background:#f8fafb;border:1px solid var(--line);font-size:13px;color:var(--muted);line-height:1.8}
+    .row-card{border:1px solid var(--line);border-radius:18px;padding:16px;background:#fff;display:grid;gap:10px}
+    .row-top{display:flex;justify-content:space-between;gap:10px;align-items:start}
+    .row-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .list-table{display:grid;gap:12px}
+    .pill{display:inline-flex;padding:6px 10px;border-radius:999px;background:#eef5f2;color:var(--accent);font-size:12px;font-weight:700}
+    .detail-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+    .media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .thumb-sm{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+    .thumb-sm img{width:100%;height:120px;object-fit:cover}
+    .thumb-sm .filebox{height:120px;display:grid;place-items:center;background:#f8fafb;color:#50606a;font-weight:700;padding:10px;text-align:center}
+    .attr-grid{display:grid;gap:10px}
+    .attr-item{display:grid;grid-template-columns:1fr 1fr auto;gap:10px}
+    .file-item,.img-item{display:grid;gap:8px}
+    .hidden{display:none !important}
+    .modal{position:fixed;inset:0;background:rgba(6,11,15,.62);display:none;align-items:center;justify-content:center;padding:20px;z-index:120}
+    .modal.show{display:flex}
+    .modal-card{width:min(880px,100%);background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.22);max-height:calc(100vh - 40px);overflow:auto}
+    .modal-top{padding:22px 24px;background:linear-gradient(135deg,#eff5f3,#dce9e4);display:flex;justify-content:space-between;gap:10px;align-items:start}
+    .modal-body{padding:24px;display:grid;gap:18px}
+    .files-list{display:grid;gap:10px}
+    .file-link{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff}
+    @media (max-width: 1040px){
+      .hero-grid,.admin-shell,.detail-grid,.product-grid,.split-3,.media-grid{grid-template-columns:1fr 1fr}
+      .stats{grid-template-columns:repeat(3,1fr)}
+    }
+    @media (max-width: 760px){
+      .menu{display:none}
+      .hero h1{font-size:36px}
+      .hero-grid,.admin-shell,.detail-grid,.split-2,.split-3,.product-grid,.media-grid,.stats{grid-template-columns:1fr}
+      .section-head{display:block}
+      .toolbar{display:grid;grid-template-columns:1fr}
+      .attr-item{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top">
+        <div class="mark">고</div>
+        <div class="logo">
+          <strong>(주)고구려산업</strong>
+          <span>확장형 제품 관리 홈페이지</span>
+        </div>
+      </a>
+      <nav class="menu">
+        <a href="#products">취급제품</a>
+        <a href="#admin">관리자</a>
+      </nav>
+      <button class="btn btn-line" type="button" id="openLoginBtn">관리자 로그인</button>
+    </div>
+  </header>
+
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="chip" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.16)">최소 고정 필드 + 확장형 상세정보</div>
+        <h1>제품명만 있어도 저장되고,<br>나머지는 나중에 붙일 수 있게 만들었습니다.</h1>
+        <p>제품 등록의 고정 필드는 제품명, 카테고리, 요약 설명, 공개 여부, 추천 여부, 정렬 순서만 남겼습니다. 슬러그는 자동 생성되고, 대표 이미지·상세 이미지·첨부파일·추가 항목은 저장 후 별도로 붙이는 구조입니다.</p>
+      </div>
+      <div class="hero-card">
+        <h3 style="margin-top:0">이번 버전에 들어간 것</h3>
+        <ul>
+          <li>최소 고정 필드 제품 등록</li>
+          <li>슬러그 자동 생성 + 중복 방지</li>
+          <li>대표 이미지 없어도 저장 가능</li>
+          <li>PDF 같은 첨부파일 추가 가능</li>
+          <li>제품별 추가 항목 자유 입력</li>
+          <li>이미지 / 파일 / 속성 / 본문을 저장 후 단계적으로 편집</li>
+        </ul>
+        <div class="stats">
+          <div class="stat"><strong id="statProducts">0</strong><span>공개 제품</span></div>
+          <div class="stat"><strong id="statCategories">0</strong><span>활성 카테고리</span></div>
+          <div class="stat"><strong id="statFiles">0</strong><span>첨부 파일</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="products">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">취급제품 게시판</h2>
+          <p class="section-desc">대표 이미지가 없으면 기본 플레이스홀더가 뜹니다. 첨부파일과 추가 항목은 상세보기에서 확인할 수 있습니다.</p>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="tool"><input id="searchInput" placeholder="제품명, 요약 설명 검색"></div>
+        <div class="tool"><select id="categoryFilter"></select></div>
+        <div class="tool">
+          <select id="sortFilter">
+            <option value="featured">추천 우선</option>
+            <option value="sort">정렬 순서</option>
+            <option value="latest">최신 등록순</option>
+            <option value="name">이름순</option>
+          </select>
+        </div>
+      </div>
+      <div id="productGrid" class="product-grid"></div>
+    </div>
+  </section>
+
+  <section id="admin">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">관리자</h2>
+          <p class="section-desc">현재 파일은 브라우저 저장 방식입니다. 지금은 운영 흐름을 실제처럼 먼저 만들어둔 상태이고, 나중에 서버 붙일 때 이 구조 그대로 옮기면 됩니다.</p>
+        </div>
+      </div>
+
+      <div id="adminLoggedOut" class="card">
+        <div class="chip">ADMIN</div>
+        <h3 style="margin-top:0">관리자 로그인 필요</h3>
+        <p class="meta" style="font-size:14px">초기 비밀번호는 <strong>admin1234</strong> 입니다.</p>
+        <button class="btn btn-dark" type="button" id="openLoginBtn2">로그인 열기</button>
+      </div>
+
+      <div id="adminLoggedIn" class="hidden">
+        <div class="card" style="margin-bottom:18px">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <span class="chip" style="margin:0">로그인됨</span>
+            <strong>관리자 모드</strong>
+            <button class="btn btn-line" type="button" id="logoutBtn">로그아웃</button>
+          </div>
+        </div>
+
+        <div class="admin-shell">
+          <div class="card">
+            <div class="chip">MENU</div>
+            <div class="admin-menu">
+              <button class="btn btn-soft" type="button" data-panel="productCreate">제품 등록</button>
+              <button class="btn btn-line" type="button" data-panel="productManage">제품 관리</button>
+              <button class="btn btn-line" type="button" data-panel="categoryManage">카테고리 관리</button>
+              <button class="btn btn-line" type="button" data-panel="settings">설정</button>
+            </div>
+          </div>
+
+          <div>
+            <div class="card admin-panel active" id="panel-productCreate">
+              <div class="chip">CREATE</div>
+              <h3 style="margin-top:0">제품 등록</h3>
+              <div class="note" style="margin-bottom:14px">지금은 최소 정보만 입력하고 저장하면 됩니다. 이미지, 첨부파일, 추가 항목은 저장 후 제품 관리에서 붙입니다.</div>
+              <div class="split-2">
+                <div><input id="createName" placeholder="제품명"></div>
+                <div><select id="createCategory"></select></div>
+                <div class="full"><textarea id="createSummary" placeholder="요약 설명"></textarea></div>
+                <div><label class="note" style="display:flex;align-items:center;gap:10px;margin:0"><input id="createVisible" type="checkbox" style="width:auto" checked> 공개 여부</label></div>
+                <div><label class="note" style="display:flex;align-items:center;gap:10px;margin:0"><input id="createFeatured" type="checkbox" style="width:auto"> 추천 여부</label></div>
+                <div class="full"><input id="createSortOrder" type="number" placeholder="정렬 순서" value="100"></div>
+                <div class="full" style="display:flex;gap:10px;flex-wrap:wrap">
+                  <button class="btn btn-dark" type="button" id="createProductBtn">제품 저장</button>
+                  <button class="btn btn-line" type="button" id="resetCreateBtn">입력 초기화</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card admin-panel" id="panel-productManage">
+              <div class="chip">MANAGE</div>
+              <h3 style="margin-top:0">제품 관리</h3>
+              <div class="note" style="margin-bottom:14px">제품을 먼저 저장한 뒤 상세 설명, 추가 항목, 이미지, 첨부파일을 붙이는 구조입니다.</div>
+              <div class="list-table" id="adminProductList"></div>
+            </div>
+
+            <div class="card admin-panel" id="panel-categoryManage">
+              <div class="chip">CATEGORY</div>
+              <h3 style="margin-top:0">카테고리 관리</h3>
+              <div class="split-2" style="margin-bottom:14px">
+                <div><input id="newCategoryName" placeholder="카테고리명"></div>
+                <div><input id="newCategoryDesc" placeholder="카테고리 설명"></div>
+              </div>
+              <button class="btn btn-dark" type="button" id="addCategoryBtn">카테고리 추가</button>
+              <div class="list-table" id="categoryList" style="margin-top:16px"></div>
+            </div>
+
+            <div class="card admin-panel" id="panel-settings">
+              <div class="chip">SETTINGS</div>
+              <h3 style="margin-top:0">관리자 설정</h3>
+              <div class="split-2">
+                <div><input id="currentPassword" type="password" placeholder="현재 비밀번호"></div>
+                <div><input id="newPassword" type="password" placeholder="새 비밀번호"></div>
+              </div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+                <button class="btn btn-dark" type="button" id="changePasswordBtn">비밀번호 변경</button>
+                <button class="btn btn-line" type="button" id="exportBtn">백업 다운로드</button>
+                <label class="btn btn-line" for="importFile" style="cursor:pointer">백업 불러오기</label>
+                <input id="importFile" type="file" accept="application/json" class="hidden">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal" id="loginModal">
+    <div class="modal-card" style="width:min(480px,100%)">
+      <div class="modal-top">
+        <div><div class="chip" style="margin-bottom:10px">LOGIN</div><h3 style="margin:0">관리자 로그인</h3></div>
+        <button class="btn btn-line" type="button" onclick="closeLoginModal()">닫기</button>
+      </div>
+      <div class="modal-body">
+        <input id="loginPassword" type="password" placeholder="비밀번호">
+        <button class="btn btn-dark" type="button" id="loginBtn">로그인</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="productModal">
+    <div class="modal-card">
+      <div class="modal-top">
+        <div>
+          <div class="chip" id="modalCategory" style="margin-bottom:10px">카테고리</div>
+          <h3 id="modalTitle" style="margin:0;font-size:28px"></h3>
+          <div id="modalSlug" class="meta" style="margin-top:8px"></div>
+        </div>
+        <button class="btn btn-line" type="button" onclick="closeProductModal()">닫기</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid">
+          <div>
+            <div class="card" style="padding:0;overflow:hidden">
+              <div id="modalThumb" class="thumb" style="height:320px"></div>
+            </div>
+          </div>
+          <div style="display:grid;gap:12px">
+            <div class="card">
+              <div class="chip">요약 설명</div>
+              <div id="modalSummary" class="meta" style="font-size:14px;color:#51626c"></div>
+            </div>
+            <div class="card">
+              <div class="chip">추가 항목</div>
+              <div id="modalAttributes" class="meta" style="font-size:14px;color:#51626c"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="modalDescriptionWrap">
+          <div class="chip">상세 설명</div>
+          <div id="modalDescription" class="meta" style="font-size:14px;color:#51626c;white-space:pre-wrap"></div>
+        </div>
+
+        <div class="card" id="modalImagesWrap">
+          <div class="chip">상세 이미지</div>
+          <div id="modalImages" class="media-grid"></div>
+        </div>
+
+        <div class="card" id="modalFilesWrap">
+          <div class="chip">첨부 파일</div>
+          <div id="modalFiles" class="files-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="editModal">
+    <div class="modal-card">
+      <div class="modal-top">
+        <div>
+          <div class="chip" style="margin-bottom:10px">EDIT PRODUCT</div>
+          <h3 id="editTitle" style="margin:0">제품 편집</h3>
+          <div id="editSlug" class="meta" style="margin-top:8px"></div>
+        </div>
+        <button class="btn btn-line" type="button" onclick="closeEditModal()">닫기</button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="chip">기본 정보</div>
+          <div class="split-2">
+            <div><input id="editName" placeholder="제품명"></div>
+            <div><select id="editCategory"></select></div>
+            <div class="full"><textarea id="editSummary" placeholder="요약 설명"></textarea></div>
+            <div><label class="note" style="display:flex;align-items:center;gap:10px;margin:0"><input id="editVisible" type="checkbox" style="width:auto"> 공개 여부</label></div>
+            <div><label class="note" style="display:flex;align-items:center;gap:10px;margin:0"><input id="editFeatured" type="checkbox" style="width:auto"> 추천 여부</label></div>
+            <div class="full"><input id="editSortOrder" type="number" placeholder="정렬 순서"></div>
+            <div class="full"><textarea id="editDescription" placeholder="상세 설명 (선택)"></textarea></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="chip">추가 항목</div>
+          <div id="attributeEditor" class="attr-grid"></div>
+          <button class="btn btn-line" type="button" id="addAttributeBtn">항목 추가</button>
+        </div>
+
+        <div class="card">
+          <div class="chip">이미지</div>
+          <div class="note" style="margin-bottom:12px">대표 이미지는 선택사항입니다. 첫 번째 이미지를 대표처럼 사용합니다.</div>
+          <input id="imageInput" type="file" accept="image/*" multiple>
+          <div id="imageEditor" class="media-grid" style="margin-top:12px"></div>
+        </div>
+
+        <div class="card">
+          <div class="chip">첨부 파일</div>
+          <div class="note" style="margin-bottom:12px">PDF, DOC, XLSX 등 필요한 파일을 넣을 수 있습니다.</div>
+          <input id="fileInput" type="file" multiple>
+          <div id="fileEditor" class="list-table" style="margin-top:12px"></div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-dark" type="button" id="saveEditBtn">변경 저장</button>
+          <button class="btn btn-danger" type="button" id="deleteProductBtn">제품 삭제</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const KEYS = {
+      products:'goguryeo_products_v3',
+      categories:'goguryeo_categories_v3',
+      password:'goguryeo_admin_password_v3',
+      login:'goguryeo_admin_login_v3'
+    };
+
+    const defaults = {
+      categories:[
+        {id:'c1',name:'수중용공구',desc:'수중 작업 장비',active:true},
+        {id:'c2',name:'유압공구',desc:'유압 기반 산업 공구',active:true},
+        {id:'c3',name:'방폭 / 절단장비',desc:'방폭 환경 및 절단 장비',active:true},
+        {id:'c4',name:'파이프 / 용접장비',desc:'파이프·용접 보조 장비',active:true},
+        {id:'c5',name:'기타장비',desc:'기타 제품군',active:true}
+      ],
+      products:[
+        {
+          id:'p1',
+          name:'수중용 유압 함마드릴 SDS-PLUS',
+          slug:'수중용-유압-함마드릴-sds-plus',
+          category:'수중용공구',
+          summary:'대표 이미지 없이도 저장 가능한 예시 제품입니다.',
+          description:'상세 설명은 선택사항입니다. 없으면 이 영역도 숨길 수 있습니다.',
+          isVisible:true,
+          isFeatured:true,
+          sortOrder:10,
+          attributes:[{id:'a1',label:'사용 환경',value:'수중 작업'}],
+          images:[],
+          files:[],
+          createdAt:Date.now()-10000,
+          updatedAt:Date.now()-10000
+        },
+        {
+          id:'p2',
+          name:'방폭 파이프 절단 톱',
+          slug:'방폭-파이프-절단-톱',
+          category:'방폭 / 절단장비',
+          summary:'첨부파일과 추가 항목을 붙여 운용할 수 있는 예시입니다.',
+          description:'',
+          isVisible:true,
+          isFeatured:false,
+          sortOrder:30,
+          attributes:[{id:'a2',label:'절단 범위',value:'최대 300mm'},{id:'a3',label:'비고',value:'방폭 환경 대응'}],
+          images:[],
+          files:[],
+          createdAt:Date.now()-5000,
+          updatedAt:Date.now()-5000
+        }
+      ]
+    };
+
+    let categories = load(KEYS.categories, defaults.categories);
+    let products = load(KEYS.products, defaults.products);
+    let isAdmin = localStorage.getItem(KEYS.login) === 'true';
+    let editingId = null;
+
+    function load(key, fallback){
+      try{
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      }catch(e){ return fallback; }
+    }
+    function saveState(){
+      localStorage.setItem(KEYS.products, JSON.stringify(products));
+      localStorage.setItem(KEYS.categories, JSON.stringify(categories));
+    }
+    function getPassword(){ return localStorage.getItem(KEYS.password) || 'admin1234'; }
+    function escapeHtml(v){
+      return String(v ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;");
+    }
+    function activeCategories(){ return categories.filter(c => c.active !== false); }
+    function visibleProducts(){ return products.filter(p => p.isVisible !== false); }
+    function slugify(text){
+      const base = String(text).trim().toLowerCase()
+        .replace(/[^\p{L}\p{N}\s-]/gu,'')
+        .replace(/\s+/g,'-')
+        .replace(/-+/g,'-')
+        .replace(/^-|-$/g,'') || 'product';
+      return base;
+    }
+    function makeUniqueSlug(name, currentId=null){
+      const base = slugify(name);
+      let slug = base, n = 2;
+      while(products.some(p => p.slug === slug && p.id !== currentId)){
+        slug = `${base}-${n}`;
+        n++;
+      }
+      return slug;
+    }
+    function fileCount(){ return products.reduce((sum,p)=>sum + (p.files?.length || 0), 0); }
+    function firstImage(product){ return (product.images || [])[0] || null; }
+
+    function renderStats(){
+      document.getElementById('statProducts').textContent = visibleProducts().length;
+      document.getElementById('statCategories').textContent = activeCategories().length;
+      document.getElementById('statFiles').textContent = fileCount();
+    }
+
+    function renderFilters(){
+      const cats = ['전체', ...activeCategories().map(c=>c.name)];
+      const cf = document.getElementById('categoryFilter');
+      const current = cf.value || '전체';
+      cf.innerHTML = cats.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c === '전체' ? '전체 카테고리' : c)}</option>`).join('');
+      cf.value = cats.includes(current) ? current : '전체';
+
+      const create = document.getElementById('createCategory');
+      const edit = document.getElementById('editCategory');
+      const opts = activeCategories().map(c=>`<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
+      create.innerHTML = opts;
+      edit.innerHTML = opts;
+    }
+
+    function renderProducts(){
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const cat = document.getElementById('categoryFilter').value;
+      const sort = document.getElementById('sortFilter').value;
+      let list = visibleProducts().filter(p=>{
+        const hay = [p.name,p.summary,p.category].join(' ').toLowerCase();
+        return (!q || hay.includes(q)) && (cat === '전체' || p.category === cat);
+      });
+
+      list = [...list].sort((a,b)=>{
+        if(sort === 'name') return a.name.localeCompare(b.name,'ko');
+        if(sort === 'latest') return b.createdAt - a.createdAt;
+        if(sort === 'sort') return (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999) || b.createdAt - a.createdAt;
+        return (b.isFeatured===true)-(a.isFeatured===true) || (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999) || b.createdAt - a.createdAt;
+      });
+
+      const grid = document.getElementById('productGrid');
+      if(!list.length){
+        grid.innerHTML = '<div class="empty" style="grid-column:1/-1">조건에 맞는 제품이 없습니다.</div>';
+        return;
+      }
+      grid.innerHTML = list.map(p=>{
+        const thumb = firstImage(p);
+        return `
+          <div class="product-card">
+            <div class="thumb">
+              <div class="tag-row">
+                <span class="tag">${escapeHtml(p.category)}</span>
+                ${p.isFeatured ? '<span class="tag">추천</span>' : ''}
+              </div>
+              ${thumb ? `<img src="${thumb.url}" alt="${escapeHtml(thumb.name || p.name)}">` : '<div class="placeholder">🛠️</div>'}
+            </div>
+            <div class="product-body">
+              <div><span class="badge">/${escapeHtml(p.slug)}</span></div>
+              <h4>${escapeHtml(p.name)}</h4>
+              <div class="meta">${escapeHtml(p.summary)}</div>
+              <div class="meta">첨부파일 ${(p.files||[]).length}개 · 추가항목 ${(p.attributes||[]).length}개</div>
+              <div class="product-actions">
+                <button class="btn btn-soft" type="button" onclick="openProductModal('${p.id}')">상세보기</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function resetCreateForm(){
+      document.getElementById('createName').value = '';
+      document.getElementById('createSummary').value = '';
+      document.getElementById('createVisible').checked = true;
+      document.getElementById('createFeatured').checked = false;
+      document.getElementById('createSortOrder').value = 100;
+      if(activeCategories().length) document.getElementById('createCategory').value = activeCategories()[0].name;
+    }
+
+    function createProduct(){
+      const name = document.getElementById('createName').value.trim();
+      const category = document.getElementById('createCategory').value;
+      const summary = document.getElementById('createSummary').value.trim();
+      const isVisible = document.getElementById('createVisible').checked;
+      const isFeatured = document.getElementById('createFeatured').checked;
+      const sortOrder = Number(document.getElementById('createSortOrder').value || 100);
+
+      if(!name || !category || !summary){
+        alert('제품명, 카테고리, 요약 설명을 입력해 주세요.');
+        return;
+      }
+
+      const product = {
+        id:'p'+Date.now(),
+        name,
+        slug:makeUniqueSlug(name),
+        category,
+        summary,
+        description:'',
+        isVisible,
+        isFeatured,
+        sortOrder,
+        attributes:[],
+        images:[],
+        files:[],
+        createdAt:Date.now(),
+        updatedAt:Date.now()
+      };
+      products.unshift(product);
+      saveState();
+      renderAll();
+      resetCreateForm();
+      openPanel('productManage');
+      alert('제품이 저장되었습니다. 이제 제품 관리에서 이미지, 첨부파일, 추가 항목을 붙이시면 됩니다.');
+    }
+
+    function renderAdminProductList(){
+      const box = document.getElementById('adminProductList');
+      if(!products.length){
+        box.innerHTML = '<div class="empty">등록된 제품이 없습니다.</div>';
+        return;
+      }
+      box.innerHTML = [...products].sort((a,b)=>b.createdAt-a.createdAt).map(p=>`
+        <div class="row-card">
+          <div class="row-top">
+            <div>
+              <strong>${escapeHtml(p.name)}</strong>
+              <div class="meta" style="margin-top:6px">/${escapeHtml(p.slug)} · ${escapeHtml(p.category)}</div>
+              <div class="meta">${p.isVisible ? '공개' : '비공개'} · ${p.isFeatured ? '추천' : '일반'} · 정렬 ${p.sortOrder}</div>
+              <div class="meta">이미지 ${(p.images||[]).length}개 · 첨부파일 ${(p.files||[]).length}개 · 추가항목 ${(p.attributes||[]).length}개</div>
+            </div>
+            <div class="row-actions">
+              <button class="btn btn-line" type="button" onclick="openEditModal('${p.id}')">편집</button>
+              <button class="btn btn-danger" type="button" onclick="removeProduct('${p.id}')">삭제</button>
+            </div>
+          </div>
+          <div class="meta" style="font-size:14px;color:#5c6c76">${escapeHtml(p.summary)}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderCategoryList(){
+      const box = document.getElementById('categoryList');
+      if(!categories.length){
+        box.innerHTML = '<div class="empty">카테고리가 없습니다.</div>';
+        return;
+      }
+      box.innerHTML = categories.map(c=>{
+        const inUse = products.some(p=>p.category === c.name);
+        return `
+          <div class="row-card">
+            <div class="row-top">
+              <div>
+                <strong>${escapeHtml(c.name)}</strong>
+                <div class="meta" style="margin-top:6px">${escapeHtml(c.desc || '')}</div>
+                <div class="meta">${c.active ? '활성' : '숨김'} · ${inUse ? '사용 중' : '미사용'}</div>
+              </div>
+              <div class="row-actions">
+                <button class="btn btn-line" type="button" onclick="toggleCategory('${c.id}')">${c.active ? '숨기기' : '활성화'}</button>
+                <button class="btn btn-danger" type="button" onclick="deleteCategory('${c.id}')">삭제</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addCategory(){
+      const name = document.getElementById('newCategoryName').value.trim();
+      const desc = document.getElementById('newCategoryDesc').value.trim();
+      if(!name){ alert('카테고리명을 입력해 주세요.'); return; }
+      if(categories.some(c=>c.name === name)){ alert('같은 이름의 카테고리가 이미 있습니다.'); return; }
+      categories.push({id:'c'+Date.now(), name, desc, active:true});
+      saveState();
+      document.getElementById('newCategoryName').value='';
+      document.getElementById('newCategoryDesc').value='';
+      renderAll();
+    }
+
+    function toggleCategory(id){
+      const c = categories.find(x=>x.id===id);
+      if(!c) return;
+      c.active = !c.active;
+      saveState();
+      renderAll();
+    }
+
+    function deleteCategory(id){
+      const c = categories.find(x=>x.id===id);
+      if(!c) return;
+      if(products.some(p=>p.category === c.name)){
+        alert('이 카테고리를 사용하는 제품이 있어서 삭제할 수 없습니다.');
+        return;
+      }
+      if(!confirm(`"${c.name}" 카테고리를 삭제할까요?`)) return;
+      categories = categories.filter(x=>x.id!==id);
+      saveState();
+      renderAll();
+    }
+
+    function openProductModal(id){
+      const p = products.find(x=>x.id===id);
+      if(!p) return;
+      document.getElementById('modalCategory').textContent = p.category;
+      document.getElementById('modalTitle').textContent = p.name;
+      document.getElementById('modalSlug').textContent = '/' + p.slug;
+      document.getElementById('modalSummary').textContent = p.summary || '-';
+
+      const modalThumb = document.getElementById('modalThumb');
+      const thumb = firstImage(p);
+      modalThumb.innerHTML = thumb ? `<img src="${thumb.url}" alt="${escapeHtml(thumb.name || p.name)}">` : '<div class="placeholder">🛠️</div>';
+
+      const attrs = document.getElementById('modalAttributes');
+      attrs.innerHTML = (p.attributes && p.attributes.length)
+        ? p.attributes.map(a=>`<div><strong>${escapeHtml(a.label)}</strong> · ${escapeHtml(a.value)}</div>`).join('')
+        : '추가 항목이 없습니다.';
+
+      const descWrap = document.getElementById('modalDescriptionWrap');
+      document.getElementById('modalDescription').textContent = p.description || '';
+      descWrap.style.display = p.description ? 'block' : 'none';
+
+      const imgWrap = document.getElementById('modalImagesWrap');
+      const imgs = document.getElementById('modalImages');
+      if(p.images && p.images.length){
+        imgs.innerHTML = p.images.map(img=>`<div class="thumb-sm"><img src="${img.url}" alt="${escapeHtml(img.name || p.name)}"></div>`).join('');
+        imgWrap.style.display = 'block';
+      }else{
+        imgWrap.style.display = 'none';
+      }
+
+      const fileWrap = document.getElementById('modalFilesWrap');
+      const files = document.getElementById('modalFiles');
+      if(p.files && p.files.length){
+        files.innerHTML = p.files.map(f=>`
+          <div class="file-link">
+            <div>
+              <strong>${escapeHtml(f.displayName || f.name)}</strong>
+              <div class="meta">${escapeHtml(f.name)} · ${escapeHtml(f.type || 'file')}</div>
+            </div>
+            <a class="btn btn-line" href="${f.url}" download="${escapeHtml(f.name)}">다운로드</a>
+          </div>
+        `).join('');
+        fileWrap.style.display = 'block';
+      }else{
+        fileWrap.style.display = 'none';
+      }
+
+      document.getElementById('productModal').classList.add('show');
+    }
+
+    function closeProductModal(){ document.getElementById('productModal').classList.remove('show'); }
+    function openLoginModal(){ document.getElementById('loginModal').classList.add('show'); document.getElementById('loginPassword').value=''; }
+    function closeLoginModal(){ document.getElementById('loginModal').classList.remove('show'); }
+
+    function login(){
+      if(document.getElementById('loginPassword').value !== getPassword()){
+        alert('비밀번호가 맞지 않습니다.');
+        return;
+      }
+      isAdmin = true;
+      localStorage.setItem(KEYS.login, 'true');
+      closeLoginModal();
+      renderAdminState();
+      location.hash = 'admin';
+    }
+
+    function logout(){
+      if(!confirm('로그아웃할까요?')) return;
+      isAdmin = false;
+      localStorage.setItem(KEYS.login, 'false');
+      renderAdminState();
+    }
+
+    function renderAdminState(){
+      document.getElementById('adminLoggedOut').classList.toggle('hidden', isAdmin);
+      document.getElementById('adminLoggedIn').classList.toggle('hidden', !isAdmin);
+    }
+
+    function openPanel(name){
+      document.querySelectorAll('.admin-panel').forEach(el=>el.classList.remove('active'));
+      const target = document.getElementById('panel-' + name);
+      if(target) target.classList.add('active');
+      document.querySelectorAll('.admin-menu button').forEach(btn=>{
+        if(btn.dataset.panel === name){
+          btn.classList.remove('btn-line'); btn.classList.add('btn-soft');
+        }else{
+          btn.classList.remove('btn-soft'); btn.classList.add('btn-line');
+        }
+      });
+    }
+
+    function openEditModal(id){
+      const p = products.find(x=>x.id===id);
+      if(!p) return;
+      editingId = id;
+      document.getElementById('editTitle').textContent = p.name;
+      document.getElementById('editSlug').textContent = '/' + p.slug;
+      document.getElementById('editName').value = p.name;
+      document.getElementById('editCategory').value = p.category;
+      document.getElementById('editSummary').value = p.summary;
+      document.getElementById('editVisible').checked = !!p.isVisible;
+      document.getElementById('editFeatured').checked = !!p.isFeatured;
+      document.getElementById('editSortOrder').value = p.sortOrder ?? 100;
+      document.getElementById('editDescription').value = p.description || '';
+      renderAttributeEditor(p);
+      renderImageEditor(p);
+      renderFileEditor(p);
+      document.getElementById('editModal').classList.add('show');
+    }
+
+    function closeEditModal(){
+      document.getElementById('editModal').classList.remove('show');
+      editingId = null;
+    }
+
+    function currentEditingProduct(){
+      return products.find(x=>x.id===editingId);
+    }
+
+    function renderAttributeEditor(product){
+      const box = document.getElementById('attributeEditor');
+      const attrs = product.attributes || [];
+      if(!attrs.length){
+        box.innerHTML = '<div class="note">추가 항목이 없습니다.</div>';
+        return;
+      }
+      box.innerHTML = attrs.map((a,idx)=>`
+        <div class="attr-item">
+          <input value="${escapeHtml(a.label)}" data-kind="label" data-index="${idx}" placeholder="항목명">
+          <input value="${escapeHtml(a.value)}" data-kind="value" data-index="${idx}" placeholder="값">
+          <button class="btn btn-danger" type="button" onclick="removeAttribute(${idx})">삭제</button>
+        </div>
+      `).join('');
+      box.querySelectorAll('input').forEach(input=>{
+        input.addEventListener('input', e=>{
+          const i = Number(e.target.dataset.index);
+          const kind = e.target.dataset.kind;
+          product.attributes[i][kind] = e.target.value;
+        });
+      });
+    }
+
+    function addAttribute(){
+      const p = currentEditingProduct();
+      if(!p) return;
+      p.attributes = p.attributes || [];
+      p.attributes.push({id:'a'+Date.now(), label:'', value:''});
+      renderAttributeEditor(p);
+    }
+
+    function removeAttribute(index){
+      const p = currentEditingProduct();
+      if(!p) return;
+      p.attributes.splice(index,1);
+      renderAttributeEditor(p);
+    }
+
+    function renderImageEditor(product){
+      const box = document.getElementById('imageEditor');
+      const imgs = product.images || [];
+      if(!imgs.length){
+        box.innerHTML = '<div class="note">이미지가 없습니다.</div>';
+        return;
+      }
+      box.innerHTML = imgs.map((img, idx)=>`
+        <div class="img-item">
+          <div class="thumb-sm"><img src="${img.url}" alt="${escapeHtml(img.name || product.name)}"></div>
+          <button class="btn btn-danger" type="button" onclick="removeImage(${idx})">이미지 삭제</button>
+        </div>
+      `).join('');
+    }
+
+    function handleImageUpload(files){
+      const p = currentEditingProduct();
+      if(!p || !files.length) return;
+      p.images = p.images || [];
+      Array.from(files).forEach(file=>{
+        const reader = new FileReader();
+        reader.onload = () => {
+          p.images.push({id:'img'+Date.now()+Math.random(), name:file.name, type:file.type, url:reader.result});
+          renderImageEditor(p);
+          saveState();
+          renderAll();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function removeImage(index){
+      const p = currentEditingProduct();
+      if(!p) return;
+      p.images.splice(index,1);
+      renderImageEditor(p);
+    }
+
+    function renderFileEditor(product){
+      const box = document.getElementById('fileEditor');
+      const files = product.files || [];
+      if(!files.length){
+        box.innerHTML = '<div class="note">첨부파일이 없습니다.</div>';
+        return;
+      }
+      box.innerHTML = files.map((f, idx)=>`
+        <div class="row-card">
+          <div class="row-top">
+            <div>
+              <strong>${escapeHtml(f.displayName || f.name)}</strong>
+              <div class="meta" style="margin-top:6px">${escapeHtml(f.name)} · ${escapeHtml(f.type || 'file')}</div>
+            </div>
+            <div class="row-actions">
+              <button class="btn btn-danger" type="button" onclick="removeFile(${idx})">삭제</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function handleFileUpload(files){
+      const p = currentEditingProduct();
+      if(!p || !files.length) return;
+      p.files = p.files || [];
+      Array.from(files).forEach(file=>{
+        const reader = new FileReader();
+        reader.onload = () => {
+          p.files.push({
+            id:'file'+Date.now()+Math.random(),
+            name:file.name,
+            displayName:file.name,
+            type:file.type,
+            url:reader.result
+          });
+          renderFileEditor(p);
+          saveState();
+          renderAll();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function removeFile(index){
+      const p = currentEditingProduct();
+      if(!p) return;
+      p.files.splice(index,1);
+      renderFileEditor(p);
+    }
+
+    function saveEdit(){
+      const p = currentEditingProduct();
+      if(!p) return;
+
+      const name = document.getElementById('editName').value.trim();
+      const category = document.getElementById('editCategory').value;
+      const summary = document.getElementById('editSummary').value.trim();
+
+      if(!name || !category || !summary){
+        alert('제품명, 카테고리, 요약 설명을 입력해 주세요.');
+        return;
+      }
+
+      p.name = name;
+      p.slug = makeUniqueSlug(name, p.id);
+      p.category = category;
+      p.summary = summary;
+      p.description = document.getElementById('editDescription').value.trim();
+      p.isVisible = document.getElementById('editVisible').checked;
+      p.isFeatured = document.getElementById('editFeatured').checked;
+      p.sortOrder = Number(document.getElementById('editSortOrder').value || 100);
+      p.updatedAt = Date.now();
+
+      p.attributes = (p.attributes || []).filter(a => (a.label || '').trim() || (a.value || '').trim());
+      saveState();
+      renderAll();
+      openEditModal(p.id);
+      alert('변경사항이 저장되었습니다.');
+    }
+
+    function removeProduct(id){
+      const p = products.find(x=>x.id===id);
+      if(!p) return;
+      if(!confirm(`"${p.name}" 제품을 삭제할까요?`)) return;
+      products = products.filter(x=>x.id!==id);
+      saveState();
+      renderAll();
+      if(editingId === id) closeEditModal();
+    }
+
+    function changePassword(){
+      const current = document.getElementById('currentPassword').value;
+      const next = document.getElementById('newPassword').value.trim();
+      if(current !== getPassword()){ alert('현재 비밀번호가 맞지 않습니다.'); return; }
+      if(next.length < 4){ alert('새 비밀번호는 4자 이상이어야 합니다.'); return; }
+      localStorage.setItem(KEYS.password, next);
+      document.getElementById('currentPassword').value = '';
+      document.getElementById('newPassword').value = '';
+      alert('비밀번호가 변경되었습니다.');
+    }
+
+    function exportBackup(){
+      const data = { exportedAt:new Date().toISOString(), categories, products };
+      const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'goguryeo-flex-backup.json';
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function importBackup(file){
+      const reader = new FileReader();
+      reader.onload = () => {
+        try{
+          const data = JSON.parse(reader.result);
+          if(!Array.isArray(data.categories) || !Array.isArray(data.products)) throw new Error();
+          if(!confirm('현재 데이터를 백업 내용으로 덮어쓸까요?')) return;
+          categories = data.categories;
+          products = data.products;
+          saveState();
+          renderAll();
+          alert('백업을 불러왔습니다.');
+        }catch(e){
+          alert('올바른 백업 파일이 아닙니다.');
+        }
+      };
+      reader.readAsText(file, 'utf-8');
+    }
+
+    function renderAll(){
+      renderFilters();
+      renderStats();
+      renderProducts();
+      renderAdminProductList();
+      renderCategoryList();
+      renderAdminState();
+    }
+
+    document.getElementById('searchInput').addEventListener('input', renderProducts);
+    document.getElementById('categoryFilter').addEventListener('change', renderProducts);
+    document.getElementById('sortFilter').addEventListener('change', renderProducts);
+
+    document.getElementById('openLoginBtn').addEventListener('click', openLoginModal);
+    document.getElementById('openLoginBtn2').addEventListener('click', openLoginModal);
+    document.getElementById('loginBtn').addEventListener('click', login);
+    document.getElementById('loginPassword').addEventListener('keydown', e => { if(e.key === 'Enter') login(); });
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+
+    document.getElementById('createProductBtn').addEventListener('click', createProduct);
+    document.getElementById('resetCreateBtn').addEventListener('click', resetCreateForm);
+    document.getElementById('addCategoryBtn').addEventListener('click', addCategory);
+    document.getElementById('changePasswordBtn').addEventListener('click', changePassword);
+    document.getElementById('exportBtn').addEventListener('click', exportBackup);
+    document.getElementById('importFile').addEventListener('change', e => {
+      const file = e.target.files?.[0];
+      if(file) importBackup(file);
+      e.target.value = '';
+    });
+
+    document.querySelectorAll('.admin-menu button').forEach(btn=>{
+      btn.addEventListener('click', ()=>openPanel(btn.dataset.panel));
+    });
+
+    document.getElementById('addAttributeBtn').addEventListener('click', addAttribute);
+    document.getElementById('imageInput').addEventListener('change', e => {
+      if(e.target.files?.length) handleImageUpload(e.target.files);
+      e.target.value = '';
+    });
+    document.getElementById('fileInput').addEventListener('change', e => {
+      if(e.target.files?.length) handleFileUpload(e.target.files);
+      e.target.value = '';
+    });
+    document.getElementById('saveEditBtn').addEventListener('click', saveEdit);
+    document.getElementById('deleteProductBtn').addEventListener('click', ()=> editingId && removeProduct(editingId));
+
+    document.getElementById('productModal').addEventListener('click', e => { if(e.target.id === 'productModal') closeProductModal(); });
+    document.getElementById('loginModal').addEventListener('click', e => { if(e.target.id === 'loginModal') closeLoginModal(); });
+    document.getElementById('editModal').addEventListener('click', e => { if(e.target.id === 'editModal') closeEditModal(); });
+
+    renderAll();
+    resetCreateForm();
+  </script>
+</body>
+</html>
