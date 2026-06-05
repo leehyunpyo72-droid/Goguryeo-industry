@@ -1,1052 +1,1394 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>(주)고구려산업 | 관리자 확장형 버전</title>
-  <style>
-    :root{
-      --bg:#f4f6f7; --card:#fff; --text:#182126; --muted:#66757f; --line:#d7e0e5;
-      --dark:#0d171c; --deep:#12252f; --accent:#1f5f4a; --accent-soft:#e7f1ed;
-      --danger:#9f2d2d; --danger-soft:#f8e7e7; --shadow:0 12px 30px rgba(16,24,40,.08);
-      --radius:20px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Arial,"Malgun Gothic",sans-serif;background:var(--bg);color:var(--text)}
-    a{text-decoration:none;color:inherit}
-    img{max-width:100%;display:block}
-    .wrap{max-width:1220px;margin:0 auto;padding:0 20px}
-    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(215,224,229,.9)}
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:18px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--deep),var(--accent));display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:var(--shadow)}
-    .logo strong{display:block;font-size:22px;line-height:1.1}
-    .logo span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
-    .menu{display:flex;gap:18px;align-items:center;color:#40515d;font-size:15px}
-    .menu a:hover{color:var(--accent)}
-    .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:14px;font-weight:700;border:none;cursor:pointer;font:inherit;transition:.2s}
-    .btn:hover{transform:translateY(-1px)}
-    .btn-dark{background:var(--dark);color:#fff}
-    .btn-line{background:#fff;border:1px solid var(--line);color:var(--text)}
-    .btn-soft{background:var(--accent-soft);color:var(--accent)}
-    .btn-danger{background:var(--danger-soft);color:var(--danger)}
-    .hero{background:linear-gradient(135deg,#0c161c 0%, #12303d 45%, #1f5f4a 100%);color:#fff;padding:84px 0 60px}
-    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px}
-    .hero h1{font-size:48px;line-height:1.15;margin:0 0 16px}
-    .hero p{font-size:17px;line-height:1.8;color:#dbe8e4;margin:0 0 22px}
-    .hero-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:24px;padding:24px;box-shadow:var(--shadow)}
-    .hero-card ul{margin:0;padding-left:18px;line-height:1.9;color:#d7e4df}
-    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
-    .stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);border-radius:20px;padding:16px}
-    .stat strong{display:block;font-size:24px;margin-bottom:6px}
-    section{padding:68px 0}
-    .section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:24px}
-    .section-title{font-size:34px;margin:0 0 8px}
-    .section-desc{margin:0;color:var(--muted);line-height:1.8;max-width:760px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
-    .chip{display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:12px;margin-bottom:12px}
-    input,select,textarea{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;font:inherit;color:var(--text)}
-    textarea{min-height:110px;resize:vertical}
-    input:focus,select:focus,textarea:focus{outline:none;border-color:#95b6aa;box-shadow:0 0 0 4px rgba(31,95,74,.08)}
-    .toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
-    .tool{flex:1;min-width:180px}
-    .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .product-card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
-    .thumb{height:190px;background:linear-gradient(135deg,#eef3f5,#dbe6ea);display:flex;align-items:center;justify-content:center;position:relative}
-    .thumb img{width:100%;height:100%;object-fit:cover}
-    .thumb .placeholder{font-size:44px;opacity:.9}
-    .tag-row{position:absolute;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;gap:8px}
-    .tag{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#fff;color:var(--accent);border:1px solid #dce8e3}
-    .product-body{padding:18px;display:flex;flex-direction:column;gap:10px;flex:1}
-    .product-body h4{margin:0;font-size:20px}
-    .meta{font-size:12px;color:var(--muted);line-height:1.7}
-    .badge{display:inline-flex;padding:5px 10px;border-radius:999px;background:#eef5f2;color:var(--accent);font-size:12px;font-weight:700}
-    .product-actions{display:flex;gap:10px;margin-top:auto}
-    .product-actions button{flex:1}
-    .empty{padding:44px 20px;text-align:center;background:#fff;border:1px dashed var(--line);border-radius:18px;color:var(--muted)}
-    .admin-shell{display:grid;grid-template-columns:280px 1fr;gap:18px}
-    .admin-menu{display:grid;gap:10px}
-    .admin-panel{display:none}
-    .admin-panel.active{display:block}
-    .split-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .split-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .full{grid-column:1/-1}
-    .note{padding:12px 14px;border-radius:14px;background:#f8fafb;border:1px solid var(--line);font-size:13px;color:var(--muted);line-height:1.8}
-    .row-card{border:1px solid var(--line);border-radius:18px;padding:16px;background:#fff;display:grid;gap:10px}
-    .row-top{display:flex;justify-content:space-between;gap:10px;align-items:start}
-    .row-actions{display:flex;gap:8px;flex-wrap:wrap}
-    .list-table{display:grid;gap:12px}
-    .pill{display:inline-flex;padding:6px 10px;border-radius:999px;background:#eef5f2;color:var(--accent);font-size:12px;font-weight:700}
-    .detail-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
-    .media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-    .thumb-sm{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
-    .thumb-sm img{width:100%;height:120px;object-fit:cover}
-    .thumb-sm .filebox{height:120px;display:grid;place-items:center;background:#f8fafb;color:#50606a;font-weight:700;padding:10px;text-align:center}
-    .attr-grid{display:grid;gap:10px}
-    .attr-item{display:grid;grid-template-columns:1fr 1fr auto;gap:10px}
-    .file-item,.img-item{display:grid;gap:8px}
-    .hidden{display:none !important}
-    .modal{position:fixed;inset:0;background:rgba(6,11,15,.62);display:none;align-items:center;justify-content:center;padding:20px;z-index:120}
-    .modal.show{display:flex}
-    .modal-card{width:min(880px,100%);background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.22);max-height:calc(100vh - 40px);overflow:auto}
-    .modal-top{padding:22px 24px;background:linear-gradient(135deg,#eff5f3,#dce9e4);display:flex;justify-content:space-between;gap:10px;align-items:start}
-    .modal-body{padding:24px;display:grid;gap:18px}
-    .files-list{display:grid;gap:10px}
-    .file-link{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff}
-    @media (max-width: 1040px){
-      .hero-grid,.admin-shell,.detail-grid,.product-grid,.split-3,.media-grid{grid-template-columns:1fr 1fr}
-      .stats{grid-template-columns:repeat(3,1fr)}
-    }
-    @media (max-width: 760px){
-      .menu{display:none}
-      .hero h1{font-size:36px}
-      .hero-grid,.admin-shell,.detail-grid,.split-2,.split-3,.product-grid,.media-grid,.stats{grid-template-columns:1fr}
-      .section-head{display:block}
-      .toolbar{display:grid;grid-template-columns:1fr}
-      .attr-item{grid-template-columns:1fr}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>고구려산업 | 산업용 공구 전문</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --steel:#151e2d;
+  --steel2:#1e2d40;
+  --steel3:#2c3e55;
+  --orange:#e85d04;
+  --orange2:#ff6b1a;
+  --cream:#f4f1ec;
+  --white:#ffffff;
+  --text:#151e2d;
+  --muted:#5a6a7e;
+  --border:#d8d2c8;
+  --card-bg:#ffffff;
+}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+
+/* ── HEADER ── */
+header{
+  background:var(--steel);
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 2rem;
+  position:sticky;top:0;z-index:200;
+  border-bottom:2px solid var(--orange);
+}
+.logo{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:22px;font-weight:800;
+  color:#fff;letter-spacing:3px;
+  cursor:pointer;
+}
+.logo span{color:var(--orange)}
+.header-nav{display:flex;gap:1.5rem;align-items:center}
+.header-nav a{
+  color:rgba(255,255,255,.7);
+  text-decoration:none;
+  font-size:13px;font-weight:500;
+  cursor:pointer;
+  transition:color .2s;
+}
+.header-nav a:hover{color:var(--orange)}
+.btn-admin{
+  background:var(--orange);
+  color:#fff;border:none;
+  padding:7px 16px;
+  border-radius:3px;
+  font-size:12px;font-weight:700;
+  cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;
+  transition:background .2s;
+}
+.btn-admin:hover{background:var(--orange2)}
+
+/* ── HERO ── */
+.hero{
+  background:var(--steel);
+  padding:3.5rem 2rem 2.5rem;
+  position:relative;overflow:hidden;
+}
+.hero-ring{
+  position:absolute;right:-80px;top:-80px;
+  width:380px;height:380px;
+  border:70px solid rgba(232,93,4,.07);
+  border-radius:50%;pointer-events:none;
+}
+.hero-ring2{
+  position:absolute;right:60px;bottom:-100px;
+  width:220px;height:220px;
+  border:40px solid rgba(232,93,4,.05);
+  border-radius:50%;pointer-events:none;
+}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.hero-tag{
+  display:inline-block;
+  background:rgba(232,93,4,.15);
+  color:var(--orange2);
+  font-size:10px;font-weight:700;
+  letter-spacing:2.5px;text-transform:uppercase;
+  padding:4px 12px;border-radius:2px;
+  margin-bottom:1rem;
+}
+.hero h1{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:46px;font-weight:800;
+  color:#fff;line-height:1.05;
+  letter-spacing:1px;
+  margin-bottom:.75rem;
+}
+.hero h1 em{color:var(--orange);font-style:normal}
+.hero p{color:rgba(255,255,255,.55);font-size:14px;line-height:1.8;max-width:480px}
+
+/* ── SEARCH BAR ── */
+.search-wrap{
+  max-width:1100px;margin:0 auto;
+  padding:1.5rem 2rem;
+}
+.search-row{
+  display:flex;gap:10px;align-items:center;
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:6px;
+  padding:8px 12px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+}
+.search-icon{color:var(--muted);font-size:16px;flex-shrink:0}
+.search-input{
+  flex:1;border:none;outline:none;
+  font-size:14px;font-family:'Noto Sans KR',sans-serif;
+  color:var(--text);background:transparent;
+}
+.search-input::placeholder{color:#aaa}
+.filter-row{
+  display:flex;gap:8px;flex-wrap:wrap;
+  margin-top:12px;
+}
+.filter-btn{
+  border:1px solid var(--border);
+  background:#fff;
+  color:var(--muted);
+  padding:5px 14px;
+  border-radius:20px;
+  font-size:12px;font-weight:500;
+  cursor:pointer;
+  font-family:'Noto Sans KR',sans-serif;
+  transition:all .2s;
+}
+.filter-btn:hover,.filter-btn.active{
+  background:var(--orange);
+  border-color:var(--orange);
+  color:#fff;
+}
+
+/* ── MAIN LAYOUT ── */
+.main-wrap{max-width:1100px;margin:0 auto;padding:0 2rem 4rem}
+.section-label{
+  font-size:11px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--orange);
+  margin-bottom:.5rem;
+}
+.section-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:26px;font-weight:700;
+  color:var(--steel);
+  margin-bottom:1.5rem;
+}
+
+/* ── GALLERY GRID ── */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:20px;
+}
+.post-card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform .22s,box-shadow .22s;
+}
+.post-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 32px rgba(0,0,0,.1);
+}
+.card-img{
+  width:100%;height:190px;
+  object-fit:cover;
+  background:var(--steel2);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:8px;
+  color:rgba(255,255,255,.3);
+  font-size:32px;
+}
+.card-img img{width:100%;height:100%;object-fit:cover;display:block}
+.card-body{padding:1rem 1.1rem 1.2rem}
+.card-cat{
+  display:inline-block;
+  background:rgba(232,93,4,.1);
+  color:var(--orange);
+  font-size:10px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:3px 10px;border-radius:2px;
+  margin-bottom:.6rem;
+}
+.card-title{
+  font-size:15px;font-weight:700;
+  line-height:1.45;
+  color:var(--text);
+  margin-bottom:.5rem;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.card-excerpt{
+  font-size:13px;color:var(--muted);
+  line-height:1.65;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.card-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:.9rem;
+  padding-top:.75rem;
+  border-top:1px solid #f0ece6;
+}
+.card-date{font-size:11px;color:#aaa}
+.card-more{
+  font-size:11px;font-weight:700;
+  color:var(--orange);
+  letter-spacing:.5px;
+}
+
+.empty-state{
+  grid-column:1/-1;
+  text-align:center;
+  padding:5rem 2rem;
+  color:var(--muted);
+}
+.empty-state .icon{font-size:48px;margin-bottom:1rem;opacity:.4}
+.empty-state p{font-size:14px}
+
+/* ── MODAL BACKDROP ── */
+.modal-bg{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:500;
+  padding:2rem 1rem;
+  overflow-y:auto;
+}
+.modal-bg.open{display:flex;align-items:flex-start;justify-content:center}
+.modal{
+  background:#fff;
+  border-radius:10px;
+  width:100%;max-width:760px;
+  padding:0;
+  position:relative;
+  overflow:hidden;
+}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  background:rgba(0,0,0,.08);
+  border:none;
+  width:32px;height:32px;
+  border-radius:50%;
+  font-size:18px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text);
+  z-index:10;
+}
+.modal-close:hover{background:rgba(0,0,0,.15)}
+
+/* ── POST DETAIL MODAL ── */
+.post-detail-img{
+  width:100%;height:300px;
+  object-fit:cover;
+  background:var(--steel2);
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.2);
+  font-size:48px;
+}
+.post-detail-img img{width:100%;height:100%;object-fit:cover;display:block}
+.post-detail-body{padding:2rem}
+.post-detail-cat{
+  display:inline-block;
+  background:rgba(232,93,4,.1);
+  color:var(--orange);
+  font-size:10px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:3px 10px;border-radius:2px;
+  margin-bottom:.75rem;
+}
+.post-detail-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:28px;font-weight:700;
+  color:var(--steel);
+  line-height:1.2;
+  margin-bottom:.5rem;
+}
+.post-detail-date{font-size:12px;color:#aaa;margin-bottom:1.25rem}
+.post-detail-content{
+  font-size:14px;line-height:1.85;
+  color:var(--text);
+  word-break:break-word;
+}
+.post-detail-content table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13px}
+.post-detail-content table td,.post-detail-content table th{border:1px solid #ccc;padding:7px 10px}
+.post-detail-content table th{background:#f0ece6;font-weight:700}
+.post-detail-content img{max-width:100%;border-radius:4px;margin:6px 0;display:block}
+.post-detail-content h2{font-size:20px;font-weight:700;margin:12px 0 6px}
+.post-detail-content h3{font-size:17px;font-weight:700;margin:10px 0 5px}
+.post-detail-content ul,.post-detail-content ol{padding-left:1.5rem;margin:6px 0}
+.post-detail-content hr{border:none;border-top:2px solid #d8d2c8;margin:12px 0}
+.post-detail-actions{
+  display:flex;gap:10px;
+  margin-top:1.5rem;
+  padding-top:1.25rem;
+  border-top:1px solid var(--border);
+}
+
+/* ── ADMIN WRITE MODAL ── */
+.admin-modal{
+  background:#fff;
+  border-radius:10px;
+  width:100%;max-width:700px;
+  overflow:hidden;
+  position:relative;
+}
+.admin-header{
+  background:var(--steel);
+  padding:1.25rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.admin-header h2{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:20px;font-weight:700;
+  color:#fff;letter-spacing:1px;
+}
+.admin-header .modal-close{
+  position:static;
+  background:rgba(255,255,255,.1);
+  color:#fff;
+}
+.admin-body{padding:1.5rem}
+.form-group{margin-bottom:1.1rem}
+.form-label{
+  display:block;
+  font-size:11px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.form-input,.form-select,.form-textarea{
+  width:100%;
+  border:1.5px solid var(--border);
+  border-radius:5px;
+  padding:9px 12px;
+  font-size:14px;
+  font-family:'Noto Sans KR',sans-serif;
+  color:var(--text);
+  outline:none;
+  transition:border-color .2s;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--orange)}
+.form-textarea{min-height:160px;resize:vertical}
+.img-upload-zone{
+  border:2px dashed var(--border);
+  border-radius:6px;
+  padding:1.5rem;
+  text-align:center;
+  cursor:pointer;
+  transition:border-color .2s,background .2s;
+  position:relative;
+  overflow:hidden;
+}
+.img-upload-zone:hover{border-color:var(--orange);background:rgba(232,93,4,.03)}
+.img-upload-zone input[type=file]{
+  position:absolute;inset:0;opacity:0;cursor:pointer;
+}
+.img-upload-zone .icon{font-size:28px;margin-bottom:.5rem;opacity:.4}
+.img-upload-zone p{font-size:13px;color:var(--muted)}
+.img-preview{
+  width:100%;max-height:200px;
+  object-fit:cover;
+  border-radius:5px;
+  display:none;
+  margin-top:8px;
+}
+.form-row{display:flex;gap:12px}
+.form-row .form-group{flex:1}
+.btn-submit{
+  width:100%;
+  background:var(--orange);
+  color:#fff;
+  border:none;
+  padding:12px;
+  border-radius:5px;
+  font-size:14px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;
+  cursor:pointer;
+  transition:background .2s;
+  margin-top:.5rem;
+}
+.btn-submit:hover{background:var(--orange2)}
+.btn-delete{
+  background:#fee2e2;color:#dc2626;
+  border:none;padding:9px 18px;
+  border-radius:5px;font-size:13px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;
+  cursor:pointer;
+  transition:background .2s;
+}
+.btn-delete:hover{background:#fecaca}
+.btn-edit{
+  background:var(--steel);color:#fff;
+  border:none;padding:9px 18px;
+  border-radius:5px;font-size:13px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;
+  cursor:pointer;
+  transition:background .2s;
+}
+.btn-edit:hover{background:var(--steel3)}
+
+/* ── RICH EDITOR ── */
+.editor-wrap{
+  border:1.5px solid var(--border);
+  border-radius:6px;
+  overflow:hidden;
+  background:#fff;
+  transition:border-color .2s;
+}
+.editor-wrap:focus-within{border-color:var(--orange)}
+.editor-toolbar{
+  background:#f8f6f3;
+  border-bottom:1px solid var(--border);
+  padding:6px 8px;
+  display:flex;align-items:center;flex-wrap:wrap;gap:4px;
+}
+.tb-group{display:flex;align-items:center;gap:2px}
+.tb-sep{width:1px;height:20px;background:var(--border);margin:0 4px}
+.tb-btn{
+  background:transparent;border:none;
+  width:28px;height:28px;
+  border-radius:4px;
+  font-size:13px;font-weight:600;
+  cursor:pointer;color:var(--text);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;
+  position:relative;font-family:inherit;
+}
+.tb-btn:hover{background:rgba(0,0,0,.08)}
+.tb-select{
+  border:1px solid var(--border);border-radius:4px;
+  padding:3px 6px;font-size:12px;
+  font-family:'Noto Sans KR',sans-serif;
+  color:var(--text);background:#fff;cursor:pointer;
+  outline:none;height:28px;
+}
+.tb-color-btn{font-weight:700;font-size:13px}
+.editor-body{
+  min-height:220px;max-height:420px;
+  overflow-y:auto;
+  padding:14px 16px;
+  font-size:14px;line-height:1.85;
+  color:var(--text);
+  outline:none;
+}
+.editor-body:empty:before{
+  content:'제품 특징, 사양, 용도, 표 등을 자유롭게 작성하세요...';
+  color:#bbb;pointer-events:none;
+}
+.editor-body h2{font-size:20px;font-weight:700;margin:12px 0 6px}
+.editor-body h3{font-size:17px;font-weight:700;margin:10px 0 5px}
+.editor-body h4{font-size:15px;font-weight:700;margin:8px 0 4px}
+.editor-body p{margin:4px 0}
+.editor-body ul,.editor-body ol{padding-left:1.5rem;margin:6px 0}
+.editor-body table{
+  border-collapse:collapse;width:100%;
+  margin:10px 0;font-size:13px;
+}
+.editor-body table td,.editor-body table th{
+  border:1px solid #ccc;
+  padding:7px 10px;
+  min-width:60px;
+}
+.editor-body table th{background:#f0ece6;font-weight:700}
+.editor-body img{max-width:100%;border-radius:4px;margin:6px 0;display:block}
+.editor-body hr{border:none;border-top:2px solid var(--border);margin:12px 0}
+
+/* ── LOGIN MODAL ── */
+.login-modal{
+  background:#fff;
+  border-radius:10px;
+  width:100%;max-width:360px;
+  padding:2rem;
+  position:relative;
+}
+.login-modal h2{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:24px;font-weight:700;
+  color:var(--steel);
+  margin-bottom:1.5rem;
+  text-align:center;
+}
+.login-error{
+  background:#fee2e2;
+  color:#dc2626;
+  font-size:12px;
+  padding:8px 12px;
+  border-radius:4px;
+  margin-bottom:1rem;
+  display:none;
+}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:2rem;right:2rem;
+  background:var(--steel);color:#fff;
+  padding:12px 20px;
+  border-radius:6px;
+  font-size:13px;font-weight:500;
+  z-index:9999;
+  transform:translateY(80px);opacity:0;
+  transition:all .3s;
+  border-left:3px solid var(--orange);
+}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* ── LOADING ── */
+.loading-dots{
+  display:flex;gap:6px;justify-content:center;
+  padding:3rem;
+}
+.loading-dots span{
+  width:8px;height:8px;
+  background:var(--orange);
+  border-radius:50%;
+  animation:bounce .8s infinite;
+}
+.loading-dots span:nth-child(2){animation-delay:.15s}
+.loading-dots span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+
+/* ── FADE IN ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.post-card{animation:fadeUp .4s ease both}
+
+/* ── FLOATING CONTACT BTN ── */
+.fab{
+  position:fixed;bottom:2rem;right:2rem;
+  background:var(--orange);
+  color:#fff;
+  border:none;
+  width:56px;height:56px;
+  border-radius:50%;
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(232,93,4,.45);
+  z-index:300;
+  transition:transform .2s,background .2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.fab:hover{transform:scale(1.1);background:var(--orange2)}
+.fab-label{
+  position:fixed;bottom:2.6rem;right:5.2rem;
+  background:var(--steel);color:#fff;
+  font-size:12px;font-weight:600;
+  padding:5px 12px;border-radius:20px;
+  z-index:300;
+  opacity:0;pointer-events:none;
+  transition:opacity .2s;
+  white-space:nowrap;
+}
+.fab:hover ~ .fab-label,.fab-label:hover{opacity:1}
+
+/* ── CONTACT MODAL ── */
+.contact-modal{
+  background:#fff;
+  border-radius:10px;
+  width:100%;max-width:560px;
+  overflow:hidden;
+  position:relative;
+}
+.contact-header{
+  background:var(--steel);
+  padding:1.5rem 1.75rem;
+  position:relative;
+}
+.contact-header h2{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:22px;font-weight:800;
+  color:#fff;letter-spacing:2px;
+  margin-bottom:.25rem;
+}
+.contact-header p{color:rgba(255,255,255,.55);font-size:13px}
+.contact-header .modal-close{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.1);color:#fff}
+.contact-body{padding:1.75rem}
+.contact-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:14px;margin-bottom:1.25rem;
+}
+.contact-item{
+  background:var(--cream);
+  border-radius:8px;
+  padding:1rem 1.1rem;
+}
+.contact-item.full{grid-column:1/-1}
+.contact-icon{font-size:20px;margin-bottom:.4rem}
+.contact-item-label{
+  font-size:10px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.3rem;
+}
+.contact-item-value{
+  font-size:13px;font-weight:500;
+  color:var(--text);line-height:1.6;
+}
+.contact-item-value a{color:var(--orange);text-decoration:none}
+.contact-item-value a:hover{text-decoration:underline}
+.contact-divider{
+  border:none;border-top:1px solid var(--border);
+  margin:1.25rem 0;
+}
+.contact-inquiry-title{
+  font-size:13px;font-weight:700;
+  color:var(--steel);margin-bottom:.9rem;
+}
+.contact-btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn-contact-action{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 18px;
+  border-radius:6px;
+  font-size:13px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;
+  cursor:pointer;
+  text-decoration:none;
+  transition:all .2s;
+  border:none;
+}
+.btn-call{background:var(--steel);color:#fff}
+.btn-call:hover{background:var(--steel3)}
+.btn-email1{background:var(--orange);color:#fff}
+.btn-email1:hover{background:var(--orange2)}
+.btn-email2{background:#03C75A;color:#fff}
+.btn-email2:hover{background:#02a84c}
+
+/* ── CATEGORY MANAGER MODAL ── */
+.cat-manager-modal{
+  background:#fff;border-radius:10px;
+  width:100%;max-width:480px;overflow:hidden;position:relative;
+}
+.cat-manager-header{
+  background:var(--steel);padding:1.25rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.cat-manager-header h2{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:20px;font-weight:700;color:#fff;letter-spacing:1px;
+}
+.cat-manager-header .modal-close{position:static;background:rgba(255,255,255,.1);color:#fff}
+.cat-manager-body{padding:1.5rem}
+.cat-list{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem;max-height:320px;overflow-y:auto}
+.cat-item{
+  display:flex;align-items:center;gap:8px;
+  background:var(--cream);border-radius:6px;padding:8px 12px;
+}
+.cat-drag{cursor:grab;color:var(--muted);font-size:16px;flex-shrink:0}
+.cat-item input{
+  flex:1;border:none;background:transparent;
+  font-size:14px;font-family:'Noto Sans KR',sans-serif;
+  color:var(--text);outline:none;
+  border-bottom:1px dashed transparent;
+  transition:border-color .2s;
+}
+.cat-item input:focus{border-bottom-color:var(--orange)}
+.cat-del{
+  background:none;border:none;cursor:pointer;
+  color:#dc2626;font-size:16px;flex-shrink:0;
+  opacity:.6;transition:opacity .2s;
+}
+.cat-del:hover{opacity:1}
+.cat-add-row{display:flex;gap:8px}
+.cat-add-input{
+  flex:1;border:1.5px solid var(--border);border-radius:5px;
+  padding:8px 12px;font-size:14px;
+  font-family:'Noto Sans KR',sans-serif;color:var(--text);outline:none;
+  transition:border-color .2s;
+}
+.cat-add-input:focus{border-color:var(--orange)}
+.cat-add-btn{
+  background:var(--orange);color:#fff;border:none;
+  padding:8px 16px;border-radius:5px;
+  font-size:13px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;cursor:pointer;
+  transition:background .2s;white-space:nowrap;
+}
+.cat-add-btn:hover{background:var(--orange2)}
+.cat-save-btn{
+  width:100%;background:var(--steel);color:#fff;border:none;
+  padding:11px;border-radius:5px;font-size:14px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;cursor:pointer;
+  margin-top:1rem;transition:background .2s;
+}
+.cat-save-btn:hover{background:var(--steel3)}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--steel);
+  padding:2.5rem 2rem 1.5rem;
+  margin-top:2rem;
+}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-top{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:2rem;flex-wrap:wrap;
+  padding-bottom:1.5rem;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.footer-logo{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:24px;font-weight:800;
+  color:#fff;letter-spacing:3px;
+  margin-bottom:.5rem;
+}
+.footer-logo span{color:var(--orange)}
+.footer-tagline{font-size:12px;color:rgba(255,255,255,.4);line-height:1.6}
+.footer-info{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1rem 2rem;flex:1;max-width:600px;
+}
+.footer-info-item{}
+.footer-info-label{
+  font-size:10px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(255,255,255,.35);margin-bottom:.35rem;
+}
+.footer-info-val{
+  font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;
+}
+.footer-info-val a{color:var(--orange2);text-decoration:none}
+.footer-info-val a:hover{text-decoration:underline}
+.footer-bottom{
+  padding-top:1.25rem;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:.5rem;
+}
+.footer-copy{font-size:11px;color:rgba(255,255,255,.25)}
+.footer-contact-btn{
+  background:var(--orange);color:#fff;
+  border:none;padding:8px 18px;
+  border-radius:4px;font-size:12px;font-weight:700;
+  font-family:'Noto Sans KR',sans-serif;
+  cursor:pointer;transition:background .2s;
+}
+.footer-contact-btn:hover{background:var(--orange2)}
+</style>
 </head>
 <body>
-  <header>
-    <div class="wrap nav">
-      <a class="brand" href="#top">
-        <div class="mark">고</div>
-        <div class="logo">
-          <strong>(주)고구려산업</strong>
-          <span>확장형 제품 관리 홈페이지</span>
-        </div>
-      </a>
-      <nav class="menu">
-        <a href="#products">취급제품</a>
-        <a href="#admin">관리자</a>
-      </nav>
-      <button class="btn btn-line" type="button" id="openLoginBtn">관리자 로그인</button>
-    </div>
-  </header>
 
-  <section class="hero" id="top">
-    <div class="wrap hero-grid">
+<!-- HEADER -->
+<header>
+  <div class="logo" onclick="showPage('home')">고<span>구</span>려산업</div>
+  <nav class="header-nav">
+    <a onclick="showPage('home')">홈</a>
+    <span id="headerCatLinks"></span>
+    <a onclick="openContact()">문의하기</a>
+    <button class="btn-admin" id="btnAdmin" onclick="openLogin()">관리자</button>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-ring"></div>
+  <div class="hero-ring2"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Since 1990 · 산업용 공구 전문</div>
+    <h1>KOGUREA<br><em>INDUSTRIAL</em></h1>
+    <p>토크렌치, 방폭공구, 플랜지툴, 수중장비까지 — 현장에서 검증된 산업용 공구 솔루션을 소개합니다.</p>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search-row">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" id="searchInput" type="text" placeholder="제품명, 카테고리, 키워드로 검색..." oninput="handleSearch()">
+  </div>
+  <div class="filter-row" id="filterRow"></div>
+</div>
+
+<!-- MAIN -->
+<div class="main-wrap">
+  <div class="section-label">PRODUCT POSTS</div>
+  <div class="section-title" id="galleryTitle">전체 제품 소개</div>
+  <div class="gallery" id="gallery">
+    <div class="loading-dots"><span></span><span></span><span></span></div>
+  </div>
+</div>
+
+<!-- ── 글 상세 모달 ── -->
+<div class="modal-bg" id="detailModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- ── 관리자 글쓰기 모달 ── -->
+<div class="modal-bg" id="writeModal">
+  <div class="admin-modal">
+    <div class="admin-header">
+      <h2 id="writeModalTitle">NEW POST</h2>
+      <button class="modal-close" onclick="closeModal('writeModal')">✕</button>
+    </div>
+    <div class="admin-body">
+      <input type="hidden" id="editId">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">카테고리</label>
+          <select class="form-select" id="fCategory"></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">제목</label>
+        <input class="form-input" id="fTitle" type="text" placeholder="제품명 및 소개 제목을 입력하세요">
+      </div>
+      <div class="form-group">
+        <label class="form-label">대표 이미지 (썸네일)</label>
+        <div class="img-upload-zone" id="uploadZone">
+          <input type="file" accept="image/*" id="fImage" onchange="previewThumb(event)">
+          <div class="icon">📷</div>
+          <p>클릭하여 대표 이미지 업로드 (선택사항)</p>
+        </div>
+        <img class="img-preview" id="imgPreview">
+        <input type="hidden" id="fImageData">
+      </div>
+      <div class="form-group">
+        <label class="form-label">내용 (서식 편집기)</label>
+        <div class="editor-wrap">
+          <div class="editor-toolbar">
+            <div class="tb-group">
+              <button type="button" class="tb-btn" onclick="fmt('bold')" title="굵게"><b>B</b></button>
+              <button type="button" class="tb-btn" onclick="fmt('italic')" title="기울임"><i>I</i></button>
+              <button type="button" class="tb-btn" onclick="fmt('underline')" title="밑줄"><u>U</u></button>
+              <button type="button" class="tb-btn" onclick="fmt('strikeThrough')" title="취소선"><s>S</s></button>
+            </div>
+            <div class="tb-sep"></div>
+            <div class="tb-group">
+              <select class="tb-select" onchange="fmtBlock(this.value);this.value=''">
+                <option value="">단락</option>
+                <option value="h2">제목1</option>
+                <option value="h3">제목2</option>
+                <option value="h4">제목3</option>
+                <option value="p">본문</option>
+              </select>
+              <select class="tb-select" onchange="fmtSize(this.value);this.value=''" title="글자크기">
+                <option value="">크기</option>
+                <option value="1">12px</option>
+                <option value="2">14px</option>
+                <option value="3">16px</option>
+                <option value="4">18px</option>
+                <option value="5">20px</option>
+                <option value="6">24px</option>
+              </select>
+            </div>
+            <div class="tb-sep"></div>
+            <div class="tb-group">
+              <button type="button" class="tb-btn" onclick="fmt('insertUnorderedList')" title="목록">≡</button>
+              <button type="button" class="tb-btn" onclick="fmt('insertOrderedList')" title="번호목록">①</button>
+              <button type="button" class="tb-btn" onclick="fmt('justifyLeft')" title="왼쪽">◁</button>
+              <button type="button" class="tb-btn" onclick="fmt('justifyCenter')" title="가운데">▷◁</button>
+              <button type="button" class="tb-btn" onclick="fmt('justifyRight')" title="오른쪽">▷</button>
+            </div>
+            <div class="tb-sep"></div>
+            <div class="tb-group">
+              <label class="tb-btn tb-color-btn" title="글자색" style="position:relative">
+                <span style="border-bottom:3px solid #e85d04">A</span>
+                <input type="color" value="#e85d04" style="position:absolute;opacity:0;width:1px;height:1px" onchange="fmt('foreColor',this.value)">
+              </label>
+              <label class="tb-btn tb-color-btn" title="배경색" style="position:relative">
+                <span style="background:#fff3cd;padding:1px 3px">H</span>
+                <input type="color" value="#fff3cd" style="position:absolute;opacity:0;width:1px;height:1px" onchange="fmt('hiliteColor',this.value)">
+              </label>
+            </div>
+            <div class="tb-sep"></div>
+            <div class="tb-group">
+              <button type="button" class="tb-btn" onclick="document.getElementById('editorImgInput').click()" title="이미지 삽입">🖼</button>
+              <input type="file" id="editorImgInput" accept="image/*" style="display:none" multiple onchange="insertImages(event)">
+              <button type="button" class="tb-btn" onclick="insertTable()" title="표 삽입">⊞</button>
+              <button type="button" class="tb-btn" onclick="insertHr()" title="구분선">—</button>
+              <button type="button" class="tb-btn" onclick="fmt('removeFormat')" title="서식 제거" style="font-size:11px">✕서식</button>
+            </div>
+          </div>
+          <div class="editor-body" id="editor" contenteditable="true" spellcheck="false"></div>
+        </div>
+      </div>
+      <button class="btn-submit" onclick="submitPost()">게시글 저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 카테고리 관리 모달 ── -->
+<div class="modal-bg" id="catManagerModal">
+  <div class="cat-manager-modal">
+    <div class="cat-manager-header">
+      <h2>카테고리 관리</h2>
+      <button class="modal-close" onclick="closeModal('catManagerModal')">✕</button>
+    </div>
+    <div class="cat-manager-body">
+      <div class="cat-list" id="catList"></div>
+      <div class="cat-add-row">
+        <input class="cat-add-input" id="catNewInput" type="text" placeholder="새 카테고리 이름 입력" onkeydown="if(event.key==='Enter')addCategory()">
+        <button class="cat-add-btn" onclick="addCategory()">+ 추가</button>
+      </div>
+      <button class="cat-save-btn" onclick="saveAndCloseCatManager()">저장 완료</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 로그인 모달 ── -->
+<div class="modal-bg" id="loginModal">
+  <div class="login-modal">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <h2>관리자 로그인</h2>
+    <div class="login-error" id="loginError">비밀번호가 올바르지 않습니다.</div>
+    <div class="form-group">
+      <label class="form-label">비밀번호</label>
+      <input class="form-input" id="loginPw" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn-submit" onclick="doLogin()">로그인</button>
+  </div>
+</div>
+
+<!-- ── 연락처/문의 모달 ── -->
+<div class="modal-bg" id="contactModal">
+  <div class="contact-modal">
+    <div class="contact-header">
+      <button class="modal-close" onclick="closeModal('contactModal')">✕</button>
+      <h2>CONTACT US</h2>
+      <p>(주)고구려산업에 문의하세요</p>
+    </div>
+    <div class="contact-body">
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div class="contact-item-label">전화</div>
+          <div class="contact-item-value">
+            <a href="tel:052-261-7667">052-261-7667</a><br>
+            <a href="tel:052-261-7668">052-261-7668</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📠</div>
+          <div class="contact-item-label">팩스</div>
+          <div class="contact-item-value">052-257-3777</div>
+        </div>
+        <div class="contact-item full">
+          <div class="contact-icon">📍</div>
+          <div class="contact-item-label">주소</div>
+          <div class="contact-item-value">울산광역시 남구 갈밭로 24<br>울산산업공구월드 B-127 (삼산동)</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🏢</div>
+          <div class="contact-item-label">대표이사</div>
+          <div class="contact-item-value">변충섭</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📋</div>
+          <div class="contact-item-label">사업자등록번호</div>
+          <div class="contact-item-value">610-81-28051</div>
+        </div>
+      </div>
+      <hr class="contact-divider">
+      <div class="contact-inquiry-title">빠른 문의</div>
+      <div class="contact-btns">
+        <a class="btn-contact-action btn-call" href="tel:052-261-7667">📞 전화 문의</a>
+        <a class="btn-contact-action btn-email1" href="/cdn-cgi/l/email-protection#167d7f756279797a212f22245678776073643875797b">✉ 네이버 메일</a>
+        <a class="btn-contact-action btn-email2" href="/cdn-cgi/l/email-protection#a7c0cfd3909e9395e7c3c6d2ca89c9c2d3">✉ 다음 메일</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING 문의 버튼 -->
+<button class="fab" onclick="openContact()" title="문의하기">📬</button>
+<div class="fab-label">문의하기</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
       <div>
-        <div class="chip" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.16)">최소 고정 필드 + 확장형 상세정보</div>
-        <h1>제품명만 있어도 저장되고,<br>나머지는 나중에 붙일 수 있게 만들었습니다.</h1>
-        <p>제품 등록의 고정 필드는 제품명, 카테고리, 요약 설명, 공개 여부, 추천 여부, 정렬 순서만 남겼습니다. 슬러그는 자동 생성되고, 대표 이미지·상세 이미지·첨부파일·추가 항목은 저장 후 별도로 붙이는 구조입니다.</p>
+        <div class="footer-logo">고<span>구</span>려산업</div>
+        <div class="footer-tagline">산업용 공구 전문 · Since 1990<br>현장에서 검증된 공구 솔루션</div>
       </div>
-      <div class="hero-card">
-        <h3 style="margin-top:0">이번 버전에 들어간 것</h3>
-        <ul>
-          <li>최소 고정 필드 제품 등록</li>
-          <li>슬러그 자동 생성 + 중복 방지</li>
-          <li>대표 이미지 없어도 저장 가능</li>
-          <li>PDF 같은 첨부파일 추가 가능</li>
-          <li>제품별 추가 항목 자유 입력</li>
-          <li>이미지 / 파일 / 속성 / 본문을 저장 후 단계적으로 편집</li>
-        </ul>
-        <div class="stats">
-          <div class="stat"><strong id="statProducts">0</strong><span>공개 제품</span></div>
-          <div class="stat"><strong id="statCategories">0</strong><span>활성 카테고리</span></div>
-          <div class="stat"><strong id="statFiles">0</strong><span>첨부 파일</span></div>
+      <div class="footer-info">
+        <div class="footer-info-item">
+          <div class="footer-info-label">상호</div>
+          <div class="footer-info-val">(주)고구려산업</div>
+        </div>
+        <div class="footer-info-item">
+          <div class="footer-info-label">대표이사</div>
+          <div class="footer-info-val">변충섭</div>
+        </div>
+        <div class="footer-info-item">
+          <div class="footer-info-label">전화</div>
+          <div class="footer-info-val">
+            <a href="tel:052-261-7667">052-261-7667~8</a>
+          </div>
+        </div>
+        <div class="footer-info-item">
+          <div class="footer-info-label">팩스</div>
+          <div class="footer-info-val">052-257-3777</div>
+        </div>
+        <div class="footer-info-item">
+          <div class="footer-info-label">이메일</div>
+          <div class="footer-info-val">
+            <a href="/cdn-cgi/l/email-protection#bbd0d2d8cfd4d4d78c828f89fbd5dacddec995d8d4d6"><span class="__cf_email__" data-cfemail="93f8faf0e7fcfcffa4aaa7a1d3fdf2e5f6e1bdf0fcfe">[email&#160;protected]</span></a><br>
+            <a href="/cdn-cgi/l/email-protection#bfd8d7cb88868b8dffdbdecad291d1dacb"><span class="__cf_email__" data-cfemail="9afdf2eeada3aea8dafefbeff7b4f4ffee">[email&#160;protected]</span></a>
+          </div>
+        </div>
+        <div class="footer-info-item">
+          <div class="footer-info-label">주소</div>
+          <div class="footer-info-val">울산광역시 남구 갈밭로 24<br>울산산업공구월드 B-127 (삼산동)</div>
+        </div>
+        <div class="footer-info-item">
+          <div class="footer-info-label">사업자등록번호</div>
+          <div class="footer-info-val">610-81-28051</div>
         </div>
       </div>
     </div>
-  </section>
-
-  <section id="products">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <h2 class="section-title">취급제품 게시판</h2>
-          <p class="section-desc">대표 이미지가 없으면 기본 플레이스홀더가 뜹니다. 첨부파일과 추가 항목은 상세보기에서 확인할 수 있습니다.</p>
-        </div>
-      </div>
-      <div class="toolbar">
-        <div class="tool"><input id="searchInput" placeholder="제품명, 요약 설명 검색"></div>
-        <div class="tool"><select id="categoryFilter"></select></div>
-        <div class="tool">
-          <select id="sortFilter">
-            <option value="featured">추천 우선</option>
-            <option value="sort">정렬 순서</option>
-            <option value="latest">최신 등록순</option>
-            <option value="name">이름순</option>
-          </select>
-        </div>
-      </div>
-      <div id="productGrid" class="product-grid"></div>
-    </div>
-  </section>
-
-  <section id="admin">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <h2 class="section-title">관리자</h2>
-          <p class="section-desc">현재 파일은 브라우저 저장 방식입니다. 지금은 운영 흐름을 실제처럼 먼저 만들어둔 상태이고, 나중에 서버 붙일 때 이 구조 그대로 옮기면 됩니다.</p>
-        </div>
-      </div>
-
-      <div id="adminLoggedOut" class="card">
-        <div class="chip">ADMIN</div>
-        <h3 style="margin-top:0">관리자 로그인 필요</h3>
-        <p class="meta" style="font-size:14px">초기 비밀번호는 <strong>admin1234</strong> 입니다.</p>
-        <button class="btn btn-dark" type="button" id="openLoginBtn2">로그인 열기</button>
-      </div>
-
-      <div id="adminLoggedIn" class="hidden">
-        <div class="card" style="margin-bottom:18px">
-          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-            <span class="chip" style="margin:0">로그인됨</span>
-            <strong>관리자 모드</strong>
-            <button class="btn btn-line" type="button" id="logoutBtn">로그아웃</button>
-          </div>
-        </div>
-
-        <div class="admin-shell">
-          <div class="card">
-            <div class="chip">MENU</div>
-            <div class="admin-menu">
-              <button class="btn btn-soft" type="button" data-panel="productCreate">제품 등록</button>
-              <button class="btn btn-line" type="button" data-panel="productManage">제품 관리</button>
-              <button class="btn btn-line" type="button" data-panel="categoryManage">카테고리 관리</button>
-              <button class="btn btn-line" type="button" data-panel="settings">설정</button>
-            </div>
-          </div>
-
-          <div>
-            <div class="card admin-panel active" id="panel-productCreate">
-              <div class="chip">CREATE</div>
-              <h3 style="margin-top:0">제품 등록</h3>
-              <div class="note" style="margin-bottom:14px">지금은 최소 정보만 입력하고 저장하면 됩니다. 이미지, 첨부파일, 추가 항목은 저장 후 제품 관리에서 붙입니다.</div>
-              <div class="split-2">
-                <div><input id="createName" placeholder="제품명"></div>
-                <div><select id="createCategory"></select></div>
-                <div class="full"><textarea id="createSummary" placeholder="요약 설명"></textarea></div>
-                <div><label class="note" style="display:flex;align-items:center;gap:10px;margin:0"><input id="createVisible" type="checkbox" style="width:auto" checked> 공개 여부</label></div>
-                <div><label class="note" style="display:flex;align-items:center;gap:10px;margin:0"><input id="createFeatured" type="checkbox" style="width:auto"> 추천 여부</label></div>
-                <div class="full"><input id="createSortOrder" type="number" placeholder="정렬 순서" value="100"></div>
-                <div class="full" style="display:flex;gap:10px;flex-wrap:wrap">
-                  <button class="btn btn-dark" type="button" id="createProductBtn">제품 저장</button>
-                  <button class="btn btn-line" type="button" id="resetCreateBtn">입력 초기화</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="card admin-panel" id="panel-productManage">
-              <div class="chip">MANAGE</div>
-              <h3 style="margin-top:0">제품 관리</h3>
-              <div class="note" style="margin-bottom:14px">제품을 먼저 저장한 뒤 상세 설명, 추가 항목, 이미지, 첨부파일을 붙이는 구조입니다.</div>
-              <div class="list-table" id="adminProductList"></div>
-            </div>
-
-            <div class="card admin-panel" id="panel-categoryManage">
-              <div class="chip">CATEGORY</div>
-              <h3 style="margin-top:0">카테고리 관리</h3>
-              <div class="split-2" style="margin-bottom:14px">
-                <div><input id="newCategoryName" placeholder="카테고리명"></div>
-                <div><input id="newCategoryDesc" placeholder="카테고리 설명"></div>
-              </div>
-              <button class="btn btn-dark" type="button" id="addCategoryBtn">카테고리 추가</button>
-              <div class="list-table" id="categoryList" style="margin-top:16px"></div>
-            </div>
-
-            <div class="card admin-panel" id="panel-settings">
-              <div class="chip">SETTINGS</div>
-              <h3 style="margin-top:0">관리자 설정</h3>
-              <div class="split-2">
-                <div><input id="currentPassword" type="password" placeholder="현재 비밀번호"></div>
-                <div><input id="newPassword" type="password" placeholder="새 비밀번호"></div>
-              </div>
-              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
-                <button class="btn btn-dark" type="button" id="changePasswordBtn">비밀번호 변경</button>
-                <button class="btn btn-line" type="button" id="exportBtn">백업 다운로드</button>
-                <label class="btn btn-line" for="importFile" style="cursor:pointer">백업 불러오기</label>
-                <input id="importFile" type="file" accept="application/json" class="hidden">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="modal" id="loginModal">
-    <div class="modal-card" style="width:min(480px,100%)">
-      <div class="modal-top">
-        <div><div class="chip" style="margin-bottom:10px">LOGIN</div><h3 style="margin:0">관리자 로그인</h3></div>
-        <button class="btn btn-line" type="button" onclick="closeLoginModal()">닫기</button>
-      </div>
-      <div class="modal-body">
-        <input id="loginPassword" type="password" placeholder="비밀번호">
-        <button class="btn btn-dark" type="button" id="loginBtn">로그인</button>
-      </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">Copyright © 2014 고구려산업 All rights reserved.</div>
+      <button class="footer-contact-btn" onclick="openContact()">📬 문의하기</button>
     </div>
   </div>
+</footer>
 
-  <div class="modal" id="productModal">
-    <div class="modal-card">
-      <div class="modal-top">
-        <div>
-          <div class="chip" id="modalCategory" style="margin-bottom:10px">카테고리</div>
-          <h3 id="modalTitle" style="margin:0;font-size:28px"></h3>
-          <div id="modalSlug" class="meta" style="margin-top:8px"></div>
-        </div>
-        <button class="btn btn-line" type="button" onclick="closeProductModal()">닫기</button>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── STATE ──
+const ADMIN_PW = '1234';
+let isAdmin = false;
+let posts = [];
+let categories = ['토크렌치','ATEX방폭','플랜지','수중장비','너트파쇄','임팩트렌치','기타'];
+let currentFilter = '전체';
+let currentSearch = '';
+let editingId = null;
+
+// ── STORAGE ──
+async function loadPosts() {
+  try {
+    const rc = await window.storage.get('kogurea-categories');
+    if (rc && rc.value) categories = JSON.parse(rc.value);
+  } catch(e) {}
+  try {
+    const r = await window.storage.get('kogurea-posts');
+    if (r && r.value) posts = JSON.parse(r.value);
+    else posts = getSamplePosts();
+  } catch(e) {
+    posts = getSamplePosts();
+  }
+  renderCategories();
+  renderGallery();
+}
+
+async function savePosts() {
+  try {
+    await window.storage.set('kogurea-posts', JSON.stringify(posts));
+  } catch(e) {}
+}
+
+async function saveCategories() {
+  try {
+    await window.storage.set('kogurea-categories', JSON.stringify(categories));
+  } catch(e) {}
+}
+
+function renderCategories() {
+  // 필터 버튼
+  const row = document.getElementById('filterRow');
+  row.innerHTML = `<button class="filter-btn ${currentFilter==='전체'?'active':''}" onclick="filterByCategory('전체')">전체</button>`
+    + categories.map(c => `<button class="filter-btn ${currentFilter===c?'active':''}" onclick="filterByCategory('${c}')">${c}</button>`).join('')
+    + (isAdmin ? `<button class="filter-btn" style="border-style:dashed;color:var(--orange)" onclick="openCatManager()">⚙ 카테고리 관리</button>` : '');
+  // 헤더 링크 (처음 4개만)
+  const hdr = document.getElementById('headerCatLinks');
+  hdr.innerHTML = categories.slice(0,4).map(c => `<a onclick="filterByCategory('${c}')">${c}</a>`).join('');
+  // 글쓰기 select
+  const sel = document.getElementById('fCategory');
+  if (sel) sel.innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
+}
+
+function getSamplePosts() {
+  return [
+    {
+      id: 's1',
+      title: 'JUWEL 배터리 토크렌치 — 무선으로 정밀한 체결력',
+      category: '토크렌치',
+      content: 'JUWEL 배터리 토크렌치는 충전식 배터리로 구동되는 고정밀 토크 공구입니다.\n\n• 토크 범위: 50~3,000 Nm\n• 정밀도: ±3% 이내\n• 배터리: 18V Li-Ion, 연속 8시간 사용\n• 데이터 기록 기능으로 품질 관리 가능\n• ATEX 인증으로 폭발 위험 지역 사용 가능\n\n플랜트, 조선소, 풍력발전 설비 등 다양한 현장에서 검증된 제품입니다.',
+      image: '',
+      date: '2024-03-15',
+    },
+    {
+      id: 's2',
+      title: 'USA 정수압 테스트 플러그 — 파이프라인 누설 검사',
+      category: '기타',
+      content: '미국산 정수압 테스트 플러그로 파이프라인의 누설 여부를 정확히 검사하세요.\n\n• 압력 범위: 최대 700 bar\n• 사이즈: 1/2"~24"\n• 재질: 스테인리스 스틸 / 알루미늄\n• 빠른 설치 및 해체\n• 석유화학, 발전소, 조선 분야 적용\n\n현장 작업 효율을 극대화하는 필수 검사 장비입니다.',
+      image: '',
+      date: '2024-03-10',
+    },
+    {
+      id: 's3',
+      title: 'NonSparking 비스파킹 공구 세트 — 방폭 환경 필수',
+      category: 'ATEX방폭',
+      content: '가스, 화학, 정유 플랜트 등 폭발 위험 지역에서 안전하게 사용할 수 있는 NonSparking 공구입니다.\n\n• 재질: 베릴륨 동합금 / 알루미늄 동합금\n• ATEX Zone 0/1/2 인증\n• 스패너, 해머, 렌치 등 전체 라인업 구비\n• 자기력 없음 (Non-Magnetic)\n• 국제 표준 DIN / ISO 규격 준수\n\n안전이 최우선인 현장에서 신뢰할 수 있는 공구입니다.',
+      image: '',
+      date: '2024-03-05',
+    },
+    {
+      id: 's4',
+      title: '플랜지 얼라인먼트 툴 — 정밀 배관 정렬 솔루션',
+      category: '플랜지',
+      content: '플랜지 얼라인먼트 툴은 배관 연결 시 플랜지를 정확히 정렬하기 위한 전문 공구입니다.\n\n• 적용 범위: DN50~DN1200\n• 유압식 / 수동식 선택 가능\n• 작업 시간 60% 단축\n• 내구성: 고강도 크롬 몰리브덴 강\n• 석유화학, 발전, 가스 플랜트 적용\n\n배관 작업의 정밀도를 높이고 작업 시간을 획기적으로 줄입니다.',
+      image: '',
+      date: '2024-02-28',
+    },
+    {
+      id: 's5',
+      title: '수중 임팩트렌치 — 수중 공사 현장용',
+      category: '수중장비',
+      content: '수중 공사 및 해저 구조물 유지보수를 위한 전문 수중 임팩트렌치입니다.\n\n• 수심: 최대 300m\n• 구동: 유압식\n• 토크: 최대 5,000 Nm\n• IP68 완전 방수 설계\n• 경량 알루미늄 바디로 조작 편리\n\n댐, 항만, 해양 플랜트, 교량 수중 공사에 적합합니다.',
+      image: '',
+      date: '2024-02-20',
+    },
+    {
+      id: 's6',
+      title: 'ENS 유압 너트 파쇄기 — 고착 너트 완벽 해결',
+      category: '너트파쇄',
+      content: '장기간 부식으로 고착된 너트를 안전하게 파쇄하는 유압식 너트 파쇄기입니다.\n\n• 적용 너트: M10~M200\n• 작동 압력: 700 bar\n• 파쇄 방식: 분할 파쇄로 주변 손상 없음\n• ATEX 인증 모델 별도 제공\n• 영국 ENS 정품\n\n석유화학, 발전, 조선, 해양 플랜트에서 필수적인 안전 공구입니다.',
+      image: '',
+      date: '2024-02-15',
+    },
+  ];
+}
+
+// ── RENDER ──
+function renderGallery() {
+  const gallery = document.getElementById('gallery');
+  let filtered = posts;
+
+  if (currentFilter !== '전체') {
+    filtered = posts.filter(p => p.category === currentFilter);
+  }
+  if (currentSearch.trim()) {
+    const q = currentSearch.trim().toLowerCase();
+    filtered = filtered.filter(p =>
+      p.title.toLowerCase().includes(q) ||
+      p.content.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q)
+    );
+  }
+
+  const title = document.getElementById('galleryTitle');
+  if (currentSearch) {
+    title.textContent = `"${currentSearch}" 검색 결과 — ${filtered.length}건`;
+  } else if (currentFilter !== '전체') {
+    title.textContent = `${currentFilter} (${filtered.length}건)`;
+  } else {
+    title.textContent = `전체 제품 소개 (${filtered.length}건)`;
+  }
+
+  if (!filtered.length) {
+    gallery.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">🔧</div>
+        <p>등록된 제품이 없습니다.<br>${isAdmin ? '관리자 버튼으로 첫 글을 작성해 보세요.' : ''}</p>
+      </div>`;
+    return;
+  }
+
+  gallery.innerHTML = filtered.map((p, i) => `
+    <div class="post-card" style="animation-delay:${i*0.06}s" onclick="openDetail('${p.id}')">
+      <div class="card-img">
+        ${p.image ? `<img src="${p.image}" alt="${p.title}">` : `<span>🔧</span>`}
       </div>
-      <div class="modal-body">
-        <div class="detail-grid">
-          <div>
-            <div class="card" style="padding:0;overflow:hidden">
-              <div id="modalThumb" class="thumb" style="height:320px"></div>
-            </div>
-          </div>
-          <div style="display:grid;gap:12px">
-            <div class="card">
-              <div class="chip">요약 설명</div>
-              <div id="modalSummary" class="meta" style="font-size:14px;color:#51626c"></div>
-            </div>
-            <div class="card">
-              <div class="chip">추가 항목</div>
-              <div id="modalAttributes" class="meta" style="font-size:14px;color:#51626c"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" id="modalDescriptionWrap">
-          <div class="chip">상세 설명</div>
-          <div id="modalDescription" class="meta" style="font-size:14px;color:#51626c;white-space:pre-wrap"></div>
-        </div>
-
-        <div class="card" id="modalImagesWrap">
-          <div class="chip">상세 이미지</div>
-          <div id="modalImages" class="media-grid"></div>
-        </div>
-
-        <div class="card" id="modalFilesWrap">
-          <div class="chip">첨부 파일</div>
-          <div id="modalFiles" class="files-list"></div>
+      <div class="card-body">
+        <span class="card-cat">${p.category}</span>
+        <div class="card-title">${p.title}</div>
+        <div class="card-excerpt">${p.content.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim()}</div>
+        <div class="card-meta">
+          <span class="card-date">${p.date}</span>
+          <span class="card-more">자세히 보기 →</span>
         </div>
       </div>
     </div>
-  </div>
+  `).join('');
+}
 
-  <div class="modal" id="editModal">
-    <div class="modal-card">
-      <div class="modal-top">
-        <div>
-          <div class="chip" style="margin-bottom:10px">EDIT PRODUCT</div>
-          <h3 id="editTitle" style="margin:0">제품 편집</h3>
-          <div id="editSlug" class="meta" style="margin-top:8px"></div>
-        </div>
-        <button class="btn btn-line" type="button" onclick="closeEditModal()">닫기</button>
-      </div>
-      <div class="modal-body">
-        <div class="card">
-          <div class="chip">기본 정보</div>
-          <div class="split-2">
-            <div><input id="editName" placeholder="제품명"></div>
-            <div><select id="editCategory"></select></div>
-            <div class="full"><textarea id="editSummary" placeholder="요약 설명"></textarea></div>
-            <div><label class="note" style="display:flex;align-items:center;gap:10px;margin:0"><input id="editVisible" type="checkbox" style="width:auto"> 공개 여부</label></div>
-            <div><label class="note" style="display:flex;align-items:center;gap:10px;margin:0"><input id="editFeatured" type="checkbox" style="width:auto"> 추천 여부</label></div>
-            <div class="full"><input id="editSortOrder" type="number" placeholder="정렬 순서"></div>
-            <div class="full"><textarea id="editDescription" placeholder="상세 설명 (선택)"></textarea></div>
-          </div>
-        </div>
+// ── SEARCH / FILTER ──
+function handleSearch() {
+  currentSearch = document.getElementById('searchInput').value;
+  renderGallery();
+}
 
-        <div class="card">
-          <div class="chip">추가 항목</div>
-          <div id="attributeEditor" class="attr-grid"></div>
-          <button class="btn btn-line" type="button" id="addAttributeBtn">항목 추가</button>
-        </div>
+function filterByCategory(cat) {
+  currentFilter = cat;
+  currentSearch = '';
+  document.getElementById('searchInput').value = '';
+  renderCategories();
+  renderGallery();
+}
 
-        <div class="card">
-          <div class="chip">이미지</div>
-          <div class="note" style="margin-bottom:12px">대표 이미지는 선택사항입니다. 첫 번째 이미지를 대표처럼 사용합니다.</div>
-          <input id="imageInput" type="file" accept="image/*" multiple>
-          <div id="imageEditor" class="media-grid" style="margin-top:12px"></div>
-        </div>
+// ── DETAIL MODAL ──
+function openDetail(id) {
+  const p = posts.find(x => x.id === id);
+  if (!p) return;
+  const adminBtns = isAdmin ? `
+    <button class="btn-edit" onclick="openEdit('${id}')">수정</button>
+    <button class="btn-delete" onclick="deletePost('${id}')">삭제</button>
+  ` : '';
 
-        <div class="card">
-          <div class="chip">첨부 파일</div>
-          <div class="note" style="margin-bottom:12px">PDF, DOC, XLSX 등 필요한 파일을 넣을 수 있습니다.</div>
-          <input id="fileInput" type="file" multiple>
-          <div id="fileEditor" class="list-table" style="margin-top:12px"></div>
-        </div>
-
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <button class="btn btn-dark" type="button" id="saveEditBtn">변경 저장</button>
-          <button class="btn btn-danger" type="button" id="deleteProductBtn">제품 삭제</button>
-        </div>
-      </div>
+  document.getElementById('detailContent').innerHTML = `
+    <div class="post-detail-img">
+      ${p.image ? `<img src="${p.image}" alt="${p.title}">` : `<span>🔧</span>`}
     </div>
-  </div>
+    <div class="post-detail-body">
+      <span class="post-detail-cat">${p.category}</span>
+      <div class="post-detail-title">${p.title}</div>
+      <div class="post-detail-date">${p.date}</div>
+      <div class="post-detail-content" style="font-size:14px;line-height:1.85;color:var(--text)">${p.content}</div>
+      ${adminBtns ? `<div class="post-detail-actions">${adminBtns}</div>` : ''}
+    </div>
+  `;
+  document.getElementById('detailModal').classList.add('open');
+}
 
-  <script>
-    const KEYS = {
-      products:'goguryeo_products_v3',
-      categories:'goguryeo_categories_v3',
-      password:'goguryeo_admin_password_v3',
-      login:'goguryeo_admin_login_v3'
+// ── WRITE / EDIT ──
+// ── RICH EDITOR COMMANDS ──
+function fmt(cmd, val) {
+  document.getElementById('editor').focus();
+  document.execCommand(cmd, false, val || null);
+}
+function fmtBlock(tag) {
+  if (!tag) return;
+  document.getElementById('editor').focus();
+  document.execCommand('formatBlock', false, tag);
+}
+function fmtSize(val) {
+  if (!val) return;
+  document.getElementById('editor').focus();
+  document.execCommand('fontSize', false, val);
+}
+function insertImages(e) {
+  const files = Array.from(e.target.files);
+  const ed = document.getElementById('editor');
+  ed.focus();
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      document.execCommand('insertHTML', false,
+        `<img src="${ev.target.result}" style="max-width:100%;border-radius:4px;margin:6px 0;display:block">`);
     };
-
-    const defaults = {
-      categories:[
-        {id:'c1',name:'수중용공구',desc:'수중 작업 장비',active:true},
-        {id:'c2',name:'유압공구',desc:'유압 기반 산업 공구',active:true},
-        {id:'c3',name:'방폭 / 절단장비',desc:'방폭 환경 및 절단 장비',active:true},
-        {id:'c4',name:'파이프 / 용접장비',desc:'파이프·용접 보조 장비',active:true},
-        {id:'c5',name:'기타장비',desc:'기타 제품군',active:true}
-      ],
-      products:[
-        {
-          id:'p1',
-          name:'수중용 유압 함마드릴 SDS-PLUS',
-          slug:'수중용-유압-함마드릴-sds-plus',
-          category:'수중용공구',
-          summary:'대표 이미지 없이도 저장 가능한 예시 제품입니다.',
-          description:'상세 설명은 선택사항입니다. 없으면 이 영역도 숨길 수 있습니다.',
-          isVisible:true,
-          isFeatured:true,
-          sortOrder:10,
-          attributes:[{id:'a1',label:'사용 환경',value:'수중 작업'}],
-          images:[],
-          files:[],
-          createdAt:Date.now()-10000,
-          updatedAt:Date.now()-10000
-        },
-        {
-          id:'p2',
-          name:'방폭 파이프 절단 톱',
-          slug:'방폭-파이프-절단-톱',
-          category:'방폭 / 절단장비',
-          summary:'첨부파일과 추가 항목을 붙여 운용할 수 있는 예시입니다.',
-          description:'',
-          isVisible:true,
-          isFeatured:false,
-          sortOrder:30,
-          attributes:[{id:'a2',label:'절단 범위',value:'최대 300mm'},{id:'a3',label:'비고',value:'방폭 환경 대응'}],
-          images:[],
-          files:[],
-          createdAt:Date.now()-5000,
-          updatedAt:Date.now()-5000
-        }
-      ]
-    };
-
-    let categories = load(KEYS.categories, defaults.categories);
-    let products = load(KEYS.products, defaults.products);
-    let isAdmin = localStorage.getItem(KEYS.login) === 'true';
-    let editingId = null;
-
-    function load(key, fallback){
-      try{
-        const raw = localStorage.getItem(key);
-        return raw ? JSON.parse(raw) : fallback;
-      }catch(e){ return fallback; }
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
+}
+function insertTable() {
+  const rows = parseInt(prompt('행 수 (예: 3)', '3')) || 3;
+  const cols = parseInt(prompt('열 수 (예: 3)', '3')) || 3;
+  let html = '<table style="border-collapse:collapse;width:100%;margin:10px 0">';
+  for (let r = 0; r < rows; r++) {
+    html += '<tr>';
+    for (let c = 0; c < cols; c++) {
+      if (r === 0) html += '<th style="border:1px solid #ccc;padding:7px 10px;background:#f0ece6;font-weight:700">항목</th>';
+      else html += '<td style="border:1px solid #ccc;padding:7px 10px">내용</td>';
     }
-    function saveState(){
-      localStorage.setItem(KEYS.products, JSON.stringify(products));
-      localStorage.setItem(KEYS.categories, JSON.stringify(categories));
-    }
-    function getPassword(){ return localStorage.getItem(KEYS.password) || 'admin1234'; }
-    function escapeHtml(v){
-      return String(v ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#39;");
-    }
-    function activeCategories(){ return categories.filter(c => c.active !== false); }
-    function visibleProducts(){ return products.filter(p => p.isVisible !== false); }
-    function slugify(text){
-      const base = String(text).trim().toLowerCase()
-        .replace(/[^\p{L}\p{N}\s-]/gu,'')
-        .replace(/\s+/g,'-')
-        .replace(/-+/g,'-')
-        .replace(/^-|-$/g,'') || 'product';
-      return base;
-    }
-    function makeUniqueSlug(name, currentId=null){
-      const base = slugify(name);
-      let slug = base, n = 2;
-      while(products.some(p => p.slug === slug && p.id !== currentId)){
-        slug = `${base}-${n}`;
-        n++;
-      }
-      return slug;
-    }
-    function fileCount(){ return products.reduce((sum,p)=>sum + (p.files?.length || 0), 0); }
-    function firstImage(product){ return (product.images || [])[0] || null; }
+    html += '</tr>';
+  }
+  html += '</table><p><br></p>';
+  document.getElementById('editor').focus();
+  document.execCommand('insertHTML', false, html);
+}
+function insertHr() {
+  document.getElementById('editor').focus();
+  document.execCommand('insertHTML', false, '<hr style="border:none;border-top:2px solid #d8d2c8;margin:12px 0"><p><br></p>');
+}
 
-    function renderStats(){
-      document.getElementById('statProducts').textContent = visibleProducts().length;
-      document.getElementById('statCategories').textContent = activeCategories().length;
-      document.getElementById('statFiles').textContent = fileCount();
-    }
+function openWrite() {
+  editingId = null;
+  document.getElementById('writeModalTitle').textContent = 'NEW POST';
+  document.getElementById('editId').value = '';
+  document.getElementById('fTitle').value = '';
+  document.getElementById('editor').innerHTML = '';
+  document.getElementById('fImageData').value = '';
+  document.getElementById('imgPreview').style.display = 'none';
+  document.getElementById('writeModal').classList.add('open');
+}
 
-    function renderFilters(){
-      const cats = ['전체', ...activeCategories().map(c=>c.name)];
-      const cf = document.getElementById('categoryFilter');
-      const current = cf.value || '전체';
-      cf.innerHTML = cats.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c === '전체' ? '전체 카테고리' : c)}</option>`).join('');
-      cf.value = cats.includes(current) ? current : '전체';
+function openEdit(id) {
+  const p = posts.find(x => x.id === id);
+  if (!p) return;
+  editingId = id;
+  closeModal('detailModal');
+  document.getElementById('writeModalTitle').textContent = 'EDIT POST';
+  document.getElementById('editId').value = id;
+  document.getElementById('fTitle').value = p.title;
+  document.getElementById('fCategory').value = p.category;
+  document.getElementById('editor').innerHTML = p.content;
+  document.getElementById('fImageData').value = p.image || '';
+  const prev = document.getElementById('imgPreview');
+  if (p.image) { prev.src = p.image; prev.style.display = 'block'; }
+  else prev.style.display = 'none';
+  document.getElementById('writeModal').classList.add('open');
+}
 
-      const create = document.getElementById('createCategory');
-      const edit = document.getElementById('editCategory');
-      const opts = activeCategories().map(c=>`<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`).join('');
-      create.innerHTML = opts;
-      edit.innerHTML = opts;
-    }
+function previewThumb(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('fImageData').value = ev.target.result;
+    const prev = document.getElementById('imgPreview');
+    prev.src = ev.target.result;
+    prev.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
 
-    function renderProducts(){
-      const q = document.getElementById('searchInput').value.trim().toLowerCase();
-      const cat = document.getElementById('categoryFilter').value;
-      const sort = document.getElementById('sortFilter').value;
-      let list = visibleProducts().filter(p=>{
-        const hay = [p.name,p.summary,p.category].join(' ').toLowerCase();
-        return (!q || hay.includes(q)) && (cat === '전체' || p.category === cat);
-      });
+async function submitPost() {
+  const title = document.getElementById('fTitle').value.trim();
+  const content = document.getElementById('editor').innerHTML.trim();
+  const category = document.getElementById('fCategory').value;
+  const image = document.getElementById('fImageData').value;
+  if (!title || !content || content === '<br>') { showToast('제목과 내용을 입력해 주세요.'); return; }
 
-      list = [...list].sort((a,b)=>{
-        if(sort === 'name') return a.name.localeCompare(b.name,'ko');
-        if(sort === 'latest') return b.createdAt - a.createdAt;
-        if(sort === 'sort') return (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999) || b.createdAt - a.createdAt;
-        return (b.isFeatured===true)-(a.isFeatured===true) || (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999) || b.createdAt - a.createdAt;
-      });
-
-      const grid = document.getElementById('productGrid');
-      if(!list.length){
-        grid.innerHTML = '<div class="empty" style="grid-column:1/-1">조건에 맞는 제품이 없습니다.</div>';
-        return;
-      }
-      grid.innerHTML = list.map(p=>{
-        const thumb = firstImage(p);
-        return `
-          <div class="product-card">
-            <div class="thumb">
-              <div class="tag-row">
-                <span class="tag">${escapeHtml(p.category)}</span>
-                ${p.isFeatured ? '<span class="tag">추천</span>' : ''}
-              </div>
-              ${thumb ? `<img src="${thumb.url}" alt="${escapeHtml(thumb.name || p.name)}">` : '<div class="placeholder">🛠️</div>'}
-            </div>
-            <div class="product-body">
-              <div><span class="badge">/${escapeHtml(p.slug)}</span></div>
-              <h4>${escapeHtml(p.name)}</h4>
-              <div class="meta">${escapeHtml(p.summary)}</div>
-              <div class="meta">첨부파일 ${(p.files||[]).length}개 · 추가항목 ${(p.attributes||[]).length}개</div>
-              <div class="product-actions">
-                <button class="btn btn-soft" type="button" onclick="openProductModal('${p.id}')">상세보기</button>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function resetCreateForm(){
-      document.getElementById('createName').value = '';
-      document.getElementById('createSummary').value = '';
-      document.getElementById('createVisible').checked = true;
-      document.getElementById('createFeatured').checked = false;
-      document.getElementById('createSortOrder').value = 100;
-      if(activeCategories().length) document.getElementById('createCategory').value = activeCategories()[0].name;
-    }
-
-    function createProduct(){
-      const name = document.getElementById('createName').value.trim();
-      const category = document.getElementById('createCategory').value;
-      const summary = document.getElementById('createSummary').value.trim();
-      const isVisible = document.getElementById('createVisible').checked;
-      const isFeatured = document.getElementById('createFeatured').checked;
-      const sortOrder = Number(document.getElementById('createSortOrder').value || 100);
-
-      if(!name || !category || !summary){
-        alert('제품명, 카테고리, 요약 설명을 입력해 주세요.');
-        return;
-      }
-
-      const product = {
-        id:'p'+Date.now(),
-        name,
-        slug:makeUniqueSlug(name),
-        category,
-        summary,
-        description:'',
-        isVisible,
-        isFeatured,
-        sortOrder,
-        attributes:[],
-        images:[],
-        files:[],
-        createdAt:Date.now(),
-        updatedAt:Date.now()
-      };
-      products.unshift(product);
-      saveState();
-      renderAll();
-      resetCreateForm();
-      openPanel('productManage');
-      alert('제품이 저장되었습니다. 이제 제품 관리에서 이미지, 첨부파일, 추가 항목을 붙이시면 됩니다.');
-    }
-
-    function renderAdminProductList(){
-      const box = document.getElementById('adminProductList');
-      if(!products.length){
-        box.innerHTML = '<div class="empty">등록된 제품이 없습니다.</div>';
-        return;
-      }
-      box.innerHTML = [...products].sort((a,b)=>b.createdAt-a.createdAt).map(p=>`
-        <div class="row-card">
-          <div class="row-top">
-            <div>
-              <strong>${escapeHtml(p.name)}</strong>
-              <div class="meta" style="margin-top:6px">/${escapeHtml(p.slug)} · ${escapeHtml(p.category)}</div>
-              <div class="meta">${p.isVisible ? '공개' : '비공개'} · ${p.isFeatured ? '추천' : '일반'} · 정렬 ${p.sortOrder}</div>
-              <div class="meta">이미지 ${(p.images||[]).length}개 · 첨부파일 ${(p.files||[]).length}개 · 추가항목 ${(p.attributes||[]).length}개</div>
-            </div>
-            <div class="row-actions">
-              <button class="btn btn-line" type="button" onclick="openEditModal('${p.id}')">편집</button>
-              <button class="btn btn-danger" type="button" onclick="removeProduct('${p.id}')">삭제</button>
-            </div>
-          </div>
-          <div class="meta" style="font-size:14px;color:#5c6c76">${escapeHtml(p.summary)}</div>
-        </div>
-      `).join('');
-    }
-
-    function renderCategoryList(){
-      const box = document.getElementById('categoryList');
-      if(!categories.length){
-        box.innerHTML = '<div class="empty">카테고리가 없습니다.</div>';
-        return;
-      }
-      box.innerHTML = categories.map(c=>{
-        const inUse = products.some(p=>p.category === c.name);
-        return `
-          <div class="row-card">
-            <div class="row-top">
-              <div>
-                <strong>${escapeHtml(c.name)}</strong>
-                <div class="meta" style="margin-top:6px">${escapeHtml(c.desc || '')}</div>
-                <div class="meta">${c.active ? '활성' : '숨김'} · ${inUse ? '사용 중' : '미사용'}</div>
-              </div>
-              <div class="row-actions">
-                <button class="btn btn-line" type="button" onclick="toggleCategory('${c.id}')">${c.active ? '숨기기' : '활성화'}</button>
-                <button class="btn btn-danger" type="button" onclick="deleteCategory('${c.id}')">삭제</button>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function addCategory(){
-      const name = document.getElementById('newCategoryName').value.trim();
-      const desc = document.getElementById('newCategoryDesc').value.trim();
-      if(!name){ alert('카테고리명을 입력해 주세요.'); return; }
-      if(categories.some(c=>c.name === name)){ alert('같은 이름의 카테고리가 이미 있습니다.'); return; }
-      categories.push({id:'c'+Date.now(), name, desc, active:true});
-      saveState();
-      document.getElementById('newCategoryName').value='';
-      document.getElementById('newCategoryDesc').value='';
-      renderAll();
-    }
-
-    function toggleCategory(id){
-      const c = categories.find(x=>x.id===id);
-      if(!c) return;
-      c.active = !c.active;
-      saveState();
-      renderAll();
-    }
-
-    function deleteCategory(id){
-      const c = categories.find(x=>x.id===id);
-      if(!c) return;
-      if(products.some(p=>p.category === c.name)){
-        alert('이 카테고리를 사용하는 제품이 있어서 삭제할 수 없습니다.');
-        return;
-      }
-      if(!confirm(`"${c.name}" 카테고리를 삭제할까요?`)) return;
-      categories = categories.filter(x=>x.id!==id);
-      saveState();
-      renderAll();
-    }
-
-    function openProductModal(id){
-      const p = products.find(x=>x.id===id);
-      if(!p) return;
-      document.getElementById('modalCategory').textContent = p.category;
-      document.getElementById('modalTitle').textContent = p.name;
-      document.getElementById('modalSlug').textContent = '/' + p.slug;
-      document.getElementById('modalSummary').textContent = p.summary || '-';
-
-      const modalThumb = document.getElementById('modalThumb');
-      const thumb = firstImage(p);
-      modalThumb.innerHTML = thumb ? `<img src="${thumb.url}" alt="${escapeHtml(thumb.name || p.name)}">` : '<div class="placeholder">🛠️</div>';
-
-      const attrs = document.getElementById('modalAttributes');
-      attrs.innerHTML = (p.attributes && p.attributes.length)
-        ? p.attributes.map(a=>`<div><strong>${escapeHtml(a.label)}</strong> · ${escapeHtml(a.value)}</div>`).join('')
-        : '추가 항목이 없습니다.';
-
-      const descWrap = document.getElementById('modalDescriptionWrap');
-      document.getElementById('modalDescription').textContent = p.description || '';
-      descWrap.style.display = p.description ? 'block' : 'none';
-
-      const imgWrap = document.getElementById('modalImagesWrap');
-      const imgs = document.getElementById('modalImages');
-      if(p.images && p.images.length){
-        imgs.innerHTML = p.images.map(img=>`<div class="thumb-sm"><img src="${img.url}" alt="${escapeHtml(img.name || p.name)}"></div>`).join('');
-        imgWrap.style.display = 'block';
-      }else{
-        imgWrap.style.display = 'none';
-      }
-
-      const fileWrap = document.getElementById('modalFilesWrap');
-      const files = document.getElementById('modalFiles');
-      if(p.files && p.files.length){
-        files.innerHTML = p.files.map(f=>`
-          <div class="file-link">
-            <div>
-              <strong>${escapeHtml(f.displayName || f.name)}</strong>
-              <div class="meta">${escapeHtml(f.name)} · ${escapeHtml(f.type || 'file')}</div>
-            </div>
-            <a class="btn btn-line" href="${f.url}" download="${escapeHtml(f.name)}">다운로드</a>
-          </div>
-        `).join('');
-        fileWrap.style.display = 'block';
-      }else{
-        fileWrap.style.display = 'none';
-      }
-
-      document.getElementById('productModal').classList.add('show');
-    }
-
-    function closeProductModal(){ document.getElementById('productModal').classList.remove('show'); }
-    function openLoginModal(){ document.getElementById('loginModal').classList.add('show'); document.getElementById('loginPassword').value=''; }
-    function closeLoginModal(){ document.getElementById('loginModal').classList.remove('show'); }
-
-    function login(){
-      if(document.getElementById('loginPassword').value !== getPassword()){
-        alert('비밀번호가 맞지 않습니다.');
-        return;
-      }
-      isAdmin = true;
-      localStorage.setItem(KEYS.login, 'true');
-      closeLoginModal();
-      renderAdminState();
-      location.hash = 'admin';
-    }
-
-    function logout(){
-      if(!confirm('로그아웃할까요?')) return;
-      isAdmin = false;
-      localStorage.setItem(KEYS.login, 'false');
-      renderAdminState();
-    }
-
-    function renderAdminState(){
-      document.getElementById('adminLoggedOut').classList.toggle('hidden', isAdmin);
-      document.getElementById('adminLoggedIn').classList.toggle('hidden', !isAdmin);
-    }
-
-    function openPanel(name){
-      document.querySelectorAll('.admin-panel').forEach(el=>el.classList.remove('active'));
-      const target = document.getElementById('panel-' + name);
-      if(target) target.classList.add('active');
-      document.querySelectorAll('.admin-menu button').forEach(btn=>{
-        if(btn.dataset.panel === name){
-          btn.classList.remove('btn-line'); btn.classList.add('btn-soft');
-        }else{
-          btn.classList.remove('btn-soft'); btn.classList.add('btn-line');
-        }
-      });
-    }
-
-    function openEditModal(id){
-      const p = products.find(x=>x.id===id);
-      if(!p) return;
-      editingId = id;
-      document.getElementById('editTitle').textContent = p.name;
-      document.getElementById('editSlug').textContent = '/' + p.slug;
-      document.getElementById('editName').value = p.name;
-      document.getElementById('editCategory').value = p.category;
-      document.getElementById('editSummary').value = p.summary;
-      document.getElementById('editVisible').checked = !!p.isVisible;
-      document.getElementById('editFeatured').checked = !!p.isFeatured;
-      document.getElementById('editSortOrder').value = p.sortOrder ?? 100;
-      document.getElementById('editDescription').value = p.description || '';
-      renderAttributeEditor(p);
-      renderImageEditor(p);
-      renderFileEditor(p);
-      document.getElementById('editModal').classList.add('show');
-    }
-
-    function closeEditModal(){
-      document.getElementById('editModal').classList.remove('show');
-      editingId = null;
-    }
-
-    function currentEditingProduct(){
-      return products.find(x=>x.id===editingId);
-    }
-
-    function renderAttributeEditor(product){
-      const box = document.getElementById('attributeEditor');
-      const attrs = product.attributes || [];
-      if(!attrs.length){
-        box.innerHTML = '<div class="note">추가 항목이 없습니다.</div>';
-        return;
-      }
-      box.innerHTML = attrs.map((a,idx)=>`
-        <div class="attr-item">
-          <input value="${escapeHtml(a.label)}" data-kind="label" data-index="${idx}" placeholder="항목명">
-          <input value="${escapeHtml(a.value)}" data-kind="value" data-index="${idx}" placeholder="값">
-          <button class="btn btn-danger" type="button" onclick="removeAttribute(${idx})">삭제</button>
-        </div>
-      `).join('');
-      box.querySelectorAll('input').forEach(input=>{
-        input.addEventListener('input', e=>{
-          const i = Number(e.target.dataset.index);
-          const kind = e.target.dataset.kind;
-          product.attributes[i][kind] = e.target.value;
-        });
-      });
-    }
-
-    function addAttribute(){
-      const p = currentEditingProduct();
-      if(!p) return;
-      p.attributes = p.attributes || [];
-      p.attributes.push({id:'a'+Date.now(), label:'', value:''});
-      renderAttributeEditor(p);
-    }
-
-    function removeAttribute(index){
-      const p = currentEditingProduct();
-      if(!p) return;
-      p.attributes.splice(index,1);
-      renderAttributeEditor(p);
-    }
-
-    function renderImageEditor(product){
-      const box = document.getElementById('imageEditor');
-      const imgs = product.images || [];
-      if(!imgs.length){
-        box.innerHTML = '<div class="note">이미지가 없습니다.</div>';
-        return;
-      }
-      box.innerHTML = imgs.map((img, idx)=>`
-        <div class="img-item">
-          <div class="thumb-sm"><img src="${img.url}" alt="${escapeHtml(img.name || product.name)}"></div>
-          <button class="btn btn-danger" type="button" onclick="removeImage(${idx})">이미지 삭제</button>
-        </div>
-      `).join('');
-    }
-
-    function handleImageUpload(files){
-      const p = currentEditingProduct();
-      if(!p || !files.length) return;
-      p.images = p.images || [];
-      Array.from(files).forEach(file=>{
-        const reader = new FileReader();
-        reader.onload = () => {
-          p.images.push({id:'img'+Date.now()+Math.random(), name:file.name, type:file.type, url:reader.result});
-          renderImageEditor(p);
-          saveState();
-          renderAll();
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function removeImage(index){
-      const p = currentEditingProduct();
-      if(!p) return;
-      p.images.splice(index,1);
-      renderImageEditor(p);
-    }
-
-    function renderFileEditor(product){
-      const box = document.getElementById('fileEditor');
-      const files = product.files || [];
-      if(!files.length){
-        box.innerHTML = '<div class="note">첨부파일이 없습니다.</div>';
-        return;
-      }
-      box.innerHTML = files.map((f, idx)=>`
-        <div class="row-card">
-          <div class="row-top">
-            <div>
-              <strong>${escapeHtml(f.displayName || f.name)}</strong>
-              <div class="meta" style="margin-top:6px">${escapeHtml(f.name)} · ${escapeHtml(f.type || 'file')}</div>
-            </div>
-            <div class="row-actions">
-              <button class="btn btn-danger" type="button" onclick="removeFile(${idx})">삭제</button>
-            </div>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function handleFileUpload(files){
-      const p = currentEditingProduct();
-      if(!p || !files.length) return;
-      p.files = p.files || [];
-      Array.from(files).forEach(file=>{
-        const reader = new FileReader();
-        reader.onload = () => {
-          p.files.push({
-            id:'file'+Date.now()+Math.random(),
-            name:file.name,
-            displayName:file.name,
-            type:file.type,
-            url:reader.result
-          });
-          renderFileEditor(p);
-          saveState();
-          renderAll();
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function removeFile(index){
-      const p = currentEditingProduct();
-      if(!p) return;
-      p.files.splice(index,1);
-      renderFileEditor(p);
-    }
-
-    function saveEdit(){
-      const p = currentEditingProduct();
-      if(!p) return;
-
-      const name = document.getElementById('editName').value.trim();
-      const category = document.getElementById('editCategory').value;
-      const summary = document.getElementById('editSummary').value.trim();
-
-      if(!name || !category || !summary){
-        alert('제품명, 카테고리, 요약 설명을 입력해 주세요.');
-        return;
-      }
-
-      p.name = name;
-      p.slug = makeUniqueSlug(name, p.id);
-      p.category = category;
-      p.summary = summary;
-      p.description = document.getElementById('editDescription').value.trim();
-      p.isVisible = document.getElementById('editVisible').checked;
-      p.isFeatured = document.getElementById('editFeatured').checked;
-      p.sortOrder = Number(document.getElementById('editSortOrder').value || 100);
-      p.updatedAt = Date.now();
-
-      p.attributes = (p.attributes || []).filter(a => (a.label || '').trim() || (a.value || '').trim());
-      saveState();
-      renderAll();
-      openEditModal(p.id);
-      alert('변경사항이 저장되었습니다.');
-    }
-
-    function removeProduct(id){
-      const p = products.find(x=>x.id===id);
-      if(!p) return;
-      if(!confirm(`"${p.name}" 제품을 삭제할까요?`)) return;
-      products = products.filter(x=>x.id!==id);
-      saveState();
-      renderAll();
-      if(editingId === id) closeEditModal();
-    }
-
-    function changePassword(){
-      const current = document.getElementById('currentPassword').value;
-      const next = document.getElementById('newPassword').value.trim();
-      if(current !== getPassword()){ alert('현재 비밀번호가 맞지 않습니다.'); return; }
-      if(next.length < 4){ alert('새 비밀번호는 4자 이상이어야 합니다.'); return; }
-      localStorage.setItem(KEYS.password, next);
-      document.getElementById('currentPassword').value = '';
-      document.getElementById('newPassword').value = '';
-      alert('비밀번호가 변경되었습니다.');
-    }
-
-    function exportBackup(){
-      const data = { exportedAt:new Date().toISOString(), categories, products };
-      const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'goguryeo-flex-backup.json';
-      document.body.appendChild(a); a.click(); a.remove();
-      URL.revokeObjectURL(url);
-    }
-
-    function importBackup(file){
-      const reader = new FileReader();
-      reader.onload = () => {
-        try{
-          const data = JSON.parse(reader.result);
-          if(!Array.isArray(data.categories) || !Array.isArray(data.products)) throw new Error();
-          if(!confirm('현재 데이터를 백업 내용으로 덮어쓸까요?')) return;
-          categories = data.categories;
-          products = data.products;
-          saveState();
-          renderAll();
-          alert('백업을 불러왔습니다.');
-        }catch(e){
-          alert('올바른 백업 파일이 아닙니다.');
-        }
-      };
-      reader.readAsText(file, 'utf-8');
-    }
-
-    function renderAll(){
-      renderFilters();
-      renderStats();
-      renderProducts();
-      renderAdminProductList();
-      renderCategoryList();
-      renderAdminState();
-    }
-
-    document.getElementById('searchInput').addEventListener('input', renderProducts);
-    document.getElementById('categoryFilter').addEventListener('change', renderProducts);
-    document.getElementById('sortFilter').addEventListener('change', renderProducts);
-
-    document.getElementById('openLoginBtn').addEventListener('click', openLoginModal);
-    document.getElementById('openLoginBtn2').addEventListener('click', openLoginModal);
-    document.getElementById('loginBtn').addEventListener('click', login);
-    document.getElementById('loginPassword').addEventListener('keydown', e => { if(e.key === 'Enter') login(); });
-    document.getElementById('logoutBtn').addEventListener('click', logout);
-
-    document.getElementById('createProductBtn').addEventListener('click', createProduct);
-    document.getElementById('resetCreateBtn').addEventListener('click', resetCreateForm);
-    document.getElementById('addCategoryBtn').addEventListener('click', addCategory);
-    document.getElementById('changePasswordBtn').addEventListener('click', changePassword);
-    document.getElementById('exportBtn').addEventListener('click', exportBackup);
-    document.getElementById('importFile').addEventListener('change', e => {
-      const file = e.target.files?.[0];
-      if(file) importBackup(file);
-      e.target.value = '';
+  const id = document.getElementById('editId').value;
+  if (id) {
+    const idx = posts.findIndex(p => p.id === id);
+    if (idx > -1) posts[idx] = { ...posts[idx], title, content, category, image };
+    showToast('게시글이 수정되었습니다.');
+  } else {
+    posts.unshift({
+      id: 'p' + Date.now(),
+      title, content, category, image,
+      date: new Date().toISOString().slice(0,10)
     });
+    showToast('새 게시글이 등록되었습니다!');
+  }
+  await savePosts();
+  closeModal('writeModal');
+  renderGallery();
+}
 
-    document.querySelectorAll('.admin-menu button').forEach(btn=>{
-      btn.addEventListener('click', ()=>openPanel(btn.dataset.panel));
-    });
+async function deletePost(id) {
+  if (!confirm('이 게시글을 삭제하시겠습니까?')) return;
+  posts = posts.filter(p => p.id !== id);
+  await savePosts();
+  closeModal('detailModal');
+  renderGallery();
+  showToast('게시글이 삭제되었습니다.');
+}
 
-    document.getElementById('addAttributeBtn').addEventListener('click', addAttribute);
-    document.getElementById('imageInput').addEventListener('change', e => {
-      if(e.target.files?.length) handleImageUpload(e.target.files);
-      e.target.value = '';
-    });
-    document.getElementById('fileInput').addEventListener('change', e => {
-      if(e.target.files?.length) handleFileUpload(e.target.files);
-      e.target.value = '';
-    });
-    document.getElementById('saveEditBtn').addEventListener('click', saveEdit);
-    document.getElementById('deleteProductBtn').addEventListener('click', ()=> editingId && removeProduct(editingId));
+// ── LOGIN ──
+function openLogin() {
+  if (isAdmin) { openWrite(); return; }
+  document.getElementById('loginPw').value = '';
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('loginModal').classList.add('open');
+}
 
-    document.getElementById('productModal').addEventListener('click', e => { if(e.target.id === 'productModal') closeProductModal(); });
-    document.getElementById('loginModal').addEventListener('click', e => { if(e.target.id === 'loginModal') closeLoginModal(); });
-    document.getElementById('editModal').addEventListener('click', e => { if(e.target.id === 'editModal') closeEditModal(); });
+function doLogin() {
+  const pw = document.getElementById('loginPw').value;
+  if (pw === ADMIN_PW) {
+    isAdmin = true;
+    closeModal('loginModal');
+    document.getElementById('btnAdmin').textContent = '글 작성';
+    showToast('관리자로 로그인되었습니다.');
+    renderCategories();
+    openWrite();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
 
-    renderAll();
-    resetCreateForm();
-  </script>
-</body>
-</html>
+// ── UTILS ──
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+function showPage(p) {
+  currentFilter = '전체';
+  currentSearch = '';
+  document.getElementById('searchInput').value = '';
+  renderCategories();
+  renderGallery();
+}
+function showToast(msg) {
+  const t = document.getElementById('to
